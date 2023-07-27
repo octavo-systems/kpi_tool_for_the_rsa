@@ -15,7 +15,7 @@ class Form1(Form1Template):
 
   def sifter_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
-    pass
+    return
 
 
 
