@@ -177,7 +177,7 @@ components:
     layout_properties: {slot: default, grid_position: 'STZFDB,AANHLQ'}
     components:
     - type: RepeatingPanel
-      properties: {spacing_above: none, spacing_below: none, item_template: Form1.RowTemplate1}
+      properties: {spacing_above: none, spacing_below: none, item_template: RSAKPI.RowTemplate1}
       name: repeating_panel_1
       layout_properties: {}
 - type: ColumnPanel

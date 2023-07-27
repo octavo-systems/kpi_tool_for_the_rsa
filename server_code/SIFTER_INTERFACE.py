@@ -15,45 +15,6 @@ import json
 #   return 42
 #
 
-@anvil.server.callable
-def GetRSASIFTER():
-  a = account.Account("https://rsa.sifterapp.com/api/projects/23454/issues?srt=updated", "X-Sifter-Token: 8de196b4c23a45f62676e9c08aec5490")
-  projects = a.projects() # use projects method to get projects
-    # dprint some of your project info to the screen to test that
-    # sifter-python is working
-  for p in projects:
-    print ("****************************************")   
-    print (p.name)
-    # print issues info
-    issues = p.issues()
-    for i in issues:
-        print (i.number, i.status, i.priority, i.subject)
-        
-    print
-    print ("*** milestones ***")
-    milestones = p.milestones()
-    for m in milestones:
-        print (m.name, m.due_date)
-    
-    print
-    print ("*** categories ***")            
-    categories = p.categories()
-    for c in categories:
-        print (c.name)
-        
-    print
-    print ("*** people ***")            
-    people = p.people()
-    for u in people:
-        print (u.first_name, u.last_name)
-        
-    print
-    print ("****************************************")
-
-  return 0  
-
-
-
 class Category(object):
     """Representation of a Category in Sifter"""
     def __init__(self, category):
@@ -168,12 +129,14 @@ class Project(object):
 
         # Set the number of pages
         number_of_pages = json_raw['total_pages']
-
-        for current_page in range(number_of_pages):
+        print("Num Pages: ",number_of_pages)
+        #for current_page in range(number_of_pages):
+        for current_page in range(2):
+         
             # Create a wrapper for each issue, add it to the list
             raw_issues = json_raw['issues']
             for raw_issue in raw_issues:
-                i = issue.Issue(raw_issue, self._account)
+                i = Issue(raw_issue, self._account)
                 issues.append(i)
 
             # Make a request for the next page
@@ -193,7 +156,7 @@ class Project(object):
 
         raw_milestones = json_raw['milestones']
         for raw_milestone in raw_milestones:
-            m = milestone.Milestone(raw_milestone)
+            m = Milestone(raw_milestone)
             milestones.append(m)
 
         return milestones
@@ -205,7 +168,7 @@ class Project(object):
 
         raw_categories = json_raw['categories']
         for raw_category in raw_categories:
-            c = category.Category(raw_category)
+            c = Category(raw_category)
             categories.append(c)
 
         return categories
@@ -217,11 +180,79 @@ class Project(object):
 
         raw_people = json_raw['people']
         for raw_user in raw_people:
-            u = user.User(raw_user)
+            u = User(raw_user)
             people.append(u)
 
         return people
 
+
+class Account(object):
+    """Account wrapper for Sifter"""
+    def __init__(self, host, token):
+        self.host = host
+        self.token = token
+        self.url = self.host 
+
+    def request(self, url):
+        """Requests JSON object from Sifter URL"""
+        req = requests.get(url, headers={'X-Sifter-Token': self.token,'Accept': 'application/json'})
+
+        try:
+            loadcontent =  json.loads(req.content)
+        except ValueError:
+            return loadcontent['issue']
+        else:
+            return loadcontent
+
+    def projects(self):
+        """Gets all the projects from sifter"""
+        projects = []
+        json_raw = self.request(self.url)
+        print(json_raw)
+        raw_projects = json_raw['projects']
+        for raw_project in raw_projects:
+            proj = Project(raw_project, self)
+            projects.append(proj)
+
+        return projects
+      
+@anvil.server.callable
+def GetRSASIFTER():
+  #a = Account("https://rsa.sifterapp.com/api/projects/23454/issues?srt=updated", "X-Sifter-Token: 8de196b4c23a45f62676e9c08aec5490")
+  a = Account("https://rsa.sifterapp.com/api/projects", "8de196b4c23a45f62676e9c08aec5490")
+  projects = a.projects() # use projects method to get projects
+    # dprint some of your project info to the screen to test that
+    # sifter-python is working
+  for p in projects:
+    print ("****************************************")   
+    print (p.name)
+    # print issues info
+    issues = p.issues()
+    for i in issues:
+        print (i.number, i.status, i.priority, i.subject)
+        
+    print
+    print ("*** milestones ***")
+    milestones = p.milestones()
+    for m in milestones:
+        print (m.name, m.due_date)
+    
+    print
+    print ("*** categories ***")            
+    categories = p.categories()
+    for c in categories:
+        print (c.name)
+        
+    print
+    print ("*** people ***")            
+    people = p.people()
+    for u in people:
+        print (u.first_name, u.last_name)
+        
+    print
+    print ("****************************************")
+
+  return 0  
 
 
 
