@@ -215,42 +215,31 @@ class Account(object):
             projects.append(proj)
 
         return projects
+
+    def projectIssues(self):
+        """Get RSA the project from sifter"""
+        issues = []
+        json_raw = self.request(self.url)
+        print(json_raw)
+        raw_issues = json_raw['issues']
+        for raw_issue in raw_issues:
+            issue = Project(raw_issue, self)
+            issues.append(proj)
+
+        return issues
       
 @anvil.server.callable
 def GetRSASIFTER():
-  #a = Account("https://rsa.sifterapp.com/api/projects/23454/issues?srt=updated", "X-Sifter-Token: 8de196b4c23a45f62676e9c08aec5490")
-  a = Account("https://rsa.sifterapp.com/api/projects", "8de196b4c23a45f62676e9c08aec5490")
-  projects = a.projects() # use projects method to get projects
-    # dprint some of your project info to the screen to test that
-    # sifter-python is working
-  for p in projects:
-    print ("****************************************")   
-    print (p.name)
-    # print issues info
-    issues = p.issues()
-    for i in issues:
-        print (i.number, i.status, i.priority, i.subject)
-        
-    print
-    print ("*** milestones ***")
-    milestones = p.milestones()
-    for m in milestones:
-        print (m.name, m.due_date)
-    
-    print
-    print ("*** categories ***")            
-    categories = p.categories()
-    for c in categories:
-        print (c.name)
-        
-    print
-    print ("*** people ***")            
-    people = p.people()
-    for u in people:
-        print (u.first_name, u.last_name)
-        
-    print
-    print ("****************************************")
+  a = Account("https://rsa.sifterapp.com/api/projects/23454/issues?srt=updated", "8de196b4c23a45f62676e9c08aec5490")
+  #a = Account("https://rsa.sifterapp.com/api/projects", "8de196b4c23a45f62676e9c08aec5490")
+  issues = a.projectIssues() # use projects method to get projects
+
+  print ("****************************************")   
+  # print issues info
+  for i in issues:
+      print (i.number, i.status, i.priority, i.subject)
+      
+  print ("****************************************")
 
   return 0  
 
