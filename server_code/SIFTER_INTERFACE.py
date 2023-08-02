@@ -196,7 +196,6 @@ class Account(object):
     def request(self, url):
         """Requests JSON object from Sifter URL"""
         req = requests.get(url, headers={'X-Sifter-Token': self.token,'Accept': 'application/json'})
-
         try:
             loadcontent =  json.loads(req.content)
         except ValueError:
@@ -215,12 +214,25 @@ class Account(object):
             projects.append(proj)
 
         return projects
-      
+
+    def projectRSA(self):
+        """Gets all the issues from RSA sifter"""
+        issues = []
+        json_raw = self.request(self.url)
+        print(json_raw)
+        raw_issues = json_raw['issues']
+        for raw_issue in raw_issues:
+            issue = Issue(raw_issue, self)
+            issues.append(issue)
+
+        return issues
+
+
 @anvil.server.callable
 def GetRSASIFTER():
-  #a = Account("https://rsa.sifterapp.com/api/projects/23454/issues?srt=updated", "X-Sifter-Token: 8de196b4c23a45f62676e9c08aec5490")
-  a = Account("https://rsa.sifterapp.com/api/projects", "8de196b4c23a45f62676e9c08aec5490")
-  projects = a.projects() # use projects method to get projects
+  a = Account("https://rsa.sifterapp.com/api/projects/23454/issues?srt=updated", "8de196b4c23a45f62676e9c08aec5490")
+  #a = Account("https://rsa.sifterapp.com/api/projects", "8de196b4c23a45f62676e9c08aec5490")
+  projects = a.projectRSA() # use projects method to get projects
     # dprint some of your project info to the screen to test that
     # sifter-python is working
   for p in projects:
