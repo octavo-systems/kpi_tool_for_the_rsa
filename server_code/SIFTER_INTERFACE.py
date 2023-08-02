@@ -229,7 +229,7 @@ def GetRSASIFTER():
     issues = p.issues()
     for i in issues:
         print (i.number, i.status, i.priority, i.subject)
-        
+        (c)
     print
     print ("*** milestones ***")
     milestones = p.milestones()
