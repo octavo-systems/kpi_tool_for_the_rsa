@@ -5,6 +5,25 @@ import json
 import datetime
 import dateutil.parser 
 
+critical = 0
+high = 0
+normal = 0
+low = 0
+trivial = 0
+service_requests = 0
+system_logs = 0
+dvcsd_contacts = 0
+tickets_less_than_ten_days = 0
+tickets_more_than_sixty = 0
+
+openSifters = 0
+reopenedSifters = 0
+followupSifters = 0
+resolvedSifters = 0
+closedSifters = 0
+totalSifters = 0
+percentage_incidents_in_sla = 100
+
 class Category(object):
     """Representation of a Category in Sifter"""
     def __init__(self, category):
@@ -243,24 +262,6 @@ class RSAKPI(RSAKPITemplate):
     print (c[0].commenter)
 
     print (len(RSATickets))
-    critical = 0
-    high = 0
-    normal = 0
-    low = 0
-    trivial = 0
-    service_requests = 0
-    system_logs = 0
-    dvcsd_contacts = 0
-    tickets_less_than_ten_days = 0
-    tickets_more_than_sixty = 0
-
-    openSifters = 0
-    reopenedSifters = 0
-    followupSifters = 0
-    resolvedSifters = 0
-    closedSifters = 0
-    totalSifters = 0
-    percentage_incidents_in_sla = 100
 
     for kpi in RSATickets:
 
@@ -429,7 +430,7 @@ class RSAKPI(RSAKPITemplate):
       report.write( '2. Minor releases will have related hypercare of 2 weeks - no P1 or P2 raised by customer/business in the last 4 days to close that hypercare period.' +HC_NEWLINE)    
       report.write( HC_NEWLINE )
       report.write( 'N/A' + HC_NEWLINE )  
-  return
+
 
 
 
