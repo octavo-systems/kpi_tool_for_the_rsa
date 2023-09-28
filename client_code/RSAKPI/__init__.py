@@ -328,94 +328,6 @@ class RSAKPI(RSAKPITemplate):
 
             totalSifters = openSifters + reopenedSifters + followupSifters + resolvedSifters + closedSifters
 
-    with open('c:\\temp\\python_kpi_report.txt', 'a') as report:
-        HC_NEWLINE = '\n'
-        HC_TAB = '\t'
-        report.write( 'RSA KPI Report for '+'Test Month' +HC_NEWLINE)
-        report.write( HC_NEWLINE )
-        report.write( 'Incident Management'+HC_NEWLINE )
-        report.write( HC_NEWLINE )
-        report.write( '1. Number of Incidents in month'+HC_NEWLINE )
-
-        report.write( HC_NEWLINE )
-        report.write( 'Critical  ' + HC_TAB + str(critical) + HC_NEWLINE )
-        report.write( 'High  '  + HC_TAB+HC_TAB + str(high) + HC_NEWLINE)	
-        report.write( 'Normal  ' + HC_TAB + str(normal)+ HC_NEWLINE)
-        report.write( 'Low  '  + HC_TAB+HC_TAB + str(low)+ HC_NEWLINE)
-        report.write( 'Trivial  ' + HC_TAB + str(trivial)+ HC_NEWLINE)
-
-        report.write( HC_NEWLINE +'Failed SLAs on SIFTER response time for: ' + HC_NEWLINE)
-
-        if len(failedresponse) == 0:
-            report.write( HC_NEWLINE +'None.' + HC_NEWLINE)
-        else:
-            report.write( HC_NEWLINE )
-            for kpifailure in failedresponse:
-                report.write( 'SIFTER  ' + HC_TAB + kpifailure + HC_NEWLINE )
-
-        report.write( HC_NEWLINE )
-        report.write( '1.1 SIFTER Volumes'+HC_NEWLINE )
-
-        report.write( HC_NEWLINE )
-        report.write( 'Open' + HC_TAB + HC_TAB+ str(openSifters) + HC_NEWLINE )
-        report.write( 'Reopened'  + HC_TAB + str(reopenedSifters) + HC_NEWLINE)    
-        report.write( 'Followup' + HC_TAB + str(followupSifters)+ HC_NEWLINE)
-        report.write( 'Resolved'  + HC_TAB + str(resolvedSifters)+ HC_NEWLINE)
-        report.write( 'Closed' + HC_TAB +HC_TAB+ str(closedSifters)+ HC_NEWLINE)    
-        report.write( 'Total' + HC_TAB +HC_TAB+ str(totalSifters)+ HC_NEWLINE)    
-
-        report.write( HC_NEWLINE )
-        report.write( '2. Percentage of incidents that met service levels (where no dependance on DVCSD)' +HC_NEWLINE)
-        report.write( HC_NEWLINE )    
-        report.write( 'Percentage  ' + HC_TAB +  str(percentage_incidents_in_sla) + '%' +HC_NEWLINE )
-        report.write( HC_NEWLINE )
-        report.write( '3. First contact resolution rate' +HC_NEWLINE)    
-        report.write( HC_NEWLINE )
-        report.write( 'Not Applicable  All incidents raised through SIFTER'+HC_NEWLINE)
-        report.write( HC_NEWLINE )
-        report.write( '4. Number of incident backlog/aged tickets less than 10 days old (where no dependency on DVCSD)' +HC_NEWLINE)    
-        report.write( HC_NEWLINE )
-        report.write( 'Tickets  ' + str(tickets_less_than_ten_days)+HC_NEWLINE)        
-        report.write( HC_NEWLINE )
-        report.write( '5. Unplanned Outages split into DVCSD and Vendor issues' +HC_NEWLINE)    
-        report.write( HC_NEWLINE )
-        report.write( 'Not Applicable, Production is managed by DVCSD'+HC_NEWLINE)
-        report.write( HC_NEWLINE )
-        report.write( '6. Number of Service requests' +HC_NEWLINE)
-        report.write( HC_NEWLINE )    
-        report.write( 'Tickets  ' + str(service_requests)+HC_NEWLINE)    
-        report.write( HC_NEWLINE )
-        report.write( '7. Percentage of service requests that met service levels.' +HC_NEWLINE)    
-        report.write( HC_NEWLINE )
-        report.write( 'Not Applicable, There is no SLA for service requests'+HC_NEWLINE)    
-        report.write( HC_NEWLINE )
-        report.write( '8. Number of SR aged tickets 60 days (where no dependency on DVCSD)' +HC_NEWLINE)
-        report.write( HC_NEWLINE )
-        report.write( 'Tickets  ' + str(tickets_more_than_sixty)+HC_NEWLINE)    
-        report.write( HC_NEWLINE )
-        report.write( '9. Number of issues identified from system logs' +HC_NEWLINE)
-        report.write( HC_NEWLINE )
-        report.write( 'Tickets  ' + str(system_logs)+HC_NEWLINE)    
-        report.write( HC_NEWLINE )        
-        report.write( '10. Number of alerts/communications from DVCSD actioned' +HC_NEWLINE)
-        report.write( HC_NEWLINE )
-        report.write( 'Tickets  ' + str(dvcsd_contacts)+HC_NEWLINE)        
-        report.write( HC_NEWLINE )    
-        report.write( '11. System up time clarify what is DVCSD and Vendor related on downtime.' +HC_NEWLINE)
-        report.write( HC_NEWLINE )
-        report.write( 'Not Applicable' +HC_NEWLINE)                
-
-        report.write( HC_NEWLINE )
-        report.write( 'Release Management'+HC_NEWLINE )
-        report.write( HC_NEWLINE )            
-
-
-        report.write( '1. Hypercare Exit on deployments major releases - Exit of hypercare after 1 month dependent no P1 or P2 raised by customer/ business in the last 7 days.' +HC_NEWLINE)
-        report.write( HC_NEWLINE )
-        report.write( 'N/A' +     HC_NEWLINE )
-        report.write( '2. Minor releases will have related hypercare of 2 weeks - no P1 or P2 raised by customer/business in the last 4 days to close that hypercare period.' +HC_NEWLINE)    
-        report.write( HC_NEWLINE )
-        report.write( 'N/A' + HC_NEWLINE )
 
 
     print("New this month:")
@@ -426,6 +338,99 @@ class RSAKPI(RSAKPITemplate):
     print("Trivial : " + str(trivial))
 
     return
+
+  def save_btn_click(self, **event_args):
+    """This method is called when the button is clicked"""
+  with open('c:\\temp\\python_kpi_report.txt', 'a') as report:
+      HC_NEWLINE = '\n'
+      HC_TAB = '\t'
+      report.write( 'RSA KPI Report for '+'Test Month' +HC_NEWLINE)
+      report.write( HC_NEWLINE )
+      report.write( 'Incident Management'+HC_NEWLINE )
+      report.write( HC_NEWLINE )
+      report.write( '1. Number of Incidents in month'+HC_NEWLINE )
+
+      report.write( HC_NEWLINE )
+      report.write( 'Critical  ' + HC_TAB + str(critical) + HC_NEWLINE )
+      report.write( 'High  '  + HC_TAB+HC_TAB + str(high) + HC_NEWLINE)	
+      report.write( 'Normal  ' + HC_TAB + str(normal)+ HC_NEWLINE)
+      report.write( 'Low  '  + HC_TAB+HC_TAB + str(low)+ HC_NEWLINE)
+      report.write( 'Trivial  ' + HC_TAB + str(trivial)+ HC_NEWLINE)
+
+      report.write( HC_NEWLINE +'Failed SLAs on SIFTER response time for: ' + HC_NEWLINE)
+
+      if len(failedresponse) == 0:
+          report.write( HC_NEWLINE +'None.' + HC_NEWLINE)
+      else:
+          report.write( HC_NEWLINE )
+          for kpifailure in failedresponse:
+              report.write( 'SIFTER  ' + HC_TAB + kpifailure + HC_NEWLINE )
+
+      report.write( HC_NEWLINE )
+      report.write( '1.1 SIFTER Volumes'+HC_NEWLINE )
+
+      report.write( HC_NEWLINE )
+      report.write( 'Open' + HC_TAB + HC_TAB+ str(openSifters) + HC_NEWLINE )
+      report.write( 'Reopened'  + HC_TAB + str(reopenedSifters) + HC_NEWLINE)    
+      report.write( 'Followup' + HC_TAB + str(followupSifters)+ HC_NEWLINE)
+      report.write( 'Resolved'  + HC_TAB + str(resolvedSifters)+ HC_NEWLINE)
+      report.write( 'Closed' + HC_TAB +HC_TAB+ str(closedSifters)+ HC_NEWLINE)    
+      report.write( 'Total' + HC_TAB +HC_TAB+ str(totalSifters)+ HC_NEWLINE)    
+
+      report.write( HC_NEWLINE )
+      report.write( '2. Percentage of incidents that met service levels (where no dependance on DVCSD)' +HC_NEWLINE)
+      report.write( HC_NEWLINE )    
+      report.write( 'Percentage  ' + HC_TAB +  str(percentage_incidents_in_sla) + '%' +HC_NEWLINE )
+      report.write( HC_NEWLINE )
+      report.write( '3. First contact resolution rate' +HC_NEWLINE)    
+      report.write( HC_NEWLINE )
+      report.write( 'Not Applicable  All incidents raised through SIFTER'+HC_NEWLINE)
+      report.write( HC_NEWLINE )
+      report.write( '4. Number of incident backlog/aged tickets less than 10 days old (where no dependency on DVCSD)' +HC_NEWLINE)    
+      report.write( HC_NEWLINE )
+      report.write( 'Tickets  ' + str(tickets_less_than_ten_days)+HC_NEWLINE)        
+      report.write( HC_NEWLINE )
+      report.write( '5. Unplanned Outages split into DVCSD and Vendor issues' +HC_NEWLINE)    
+      report.write( HC_NEWLINE )
+      report.write( 'Not Applicable, Production is managed by DVCSD'+HC_NEWLINE)
+      report.write( HC_NEWLINE )
+      report.write( '6. Number of Service requests' +HC_NEWLINE)
+      report.write( HC_NEWLINE )    
+      report.write( 'Tickets  ' + str(service_requests)+HC_NEWLINE)    
+      report.write( HC_NEWLINE )
+      report.write( '7. Percentage of service requests that met service levels.' +HC_NEWLINE)    
+      report.write( HC_NEWLINE )
+      report.write( 'Not Applicable, There is no SLA for service requests'+HC_NEWLINE)    
+      report.write( HC_NEWLINE )
+      report.write( '8. Number of SR aged tickets 60 days (where no dependency on DVCSD)' +HC_NEWLINE)
+      report.write( HC_NEWLINE )
+      report.write( 'Tickets  ' + str(tickets_more_than_sixty)+HC_NEWLINE)    
+      report.write( HC_NEWLINE )
+      report.write( '9. Number of issues identified from system logs' +HC_NEWLINE)
+      report.write( HC_NEWLINE )
+      report.write( 'Tickets  ' + str(system_logs)+HC_NEWLINE)    
+      report.write( HC_NEWLINE )        
+      report.write( '10. Number of alerts/communications from DVCSD actioned' +HC_NEWLINE)
+      report.write( HC_NEWLINE )
+      report.write( 'Tickets  ' + str(dvcsd_contacts)+HC_NEWLINE)        
+      report.write( HC_NEWLINE )    
+      report.write( '11. System up time clarify what is DVCSD and Vendor related on downtime.' +HC_NEWLINE)
+      report.write( HC_NEWLINE )
+      report.write( 'Not Applicable' +HC_NEWLINE)                
+
+      report.write( HC_NEWLINE )
+      report.write( 'Release Management'+HC_NEWLINE )
+      report.write( HC_NEWLINE )            
+
+
+      report.write( '1. Hypercare Exit on deployments major releases - Exit of hypercare after 1 month dependent no P1 or P2 raised by customer/ business in the last 7 days.' +HC_NEWLINE)
+      report.write( HC_NEWLINE )
+      report.write( 'N/A' +     HC_NEWLINE )
+      report.write( '2. Minor releases will have related hypercare of 2 weeks - no P1 or P2 raised by customer/business in the last 4 days to close that hypercare period.' +HC_NEWLINE)    
+      report.write( HC_NEWLINE )
+      report.write( 'N/A' + HC_NEWLINE )  
+  return
+
 
 
 
