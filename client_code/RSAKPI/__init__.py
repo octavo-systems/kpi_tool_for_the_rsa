@@ -260,15 +260,13 @@ class RSAKPI(RSAKPITemplate):
     print (c[0].commenter)
 
     print (len(RSATickets))
-
-    
     
     for kpi in RSATickets:
 
         kpi_created = dateutil.parser.parse(kpi.created_at)
         tz = kpi_created.tzinfo
 
-        if kpi_created.year == self.year.selected_value and kpi_created.month == 5:
+        if kpi_created.year == int(self.year.selected_value) and kpi_created.month == int(self.month.selected_value):
             print(str(kpi.number) + ' included in this month')
 
             failedresponse = []

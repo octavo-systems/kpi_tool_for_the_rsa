@@ -102,7 +102,10 @@ components:
     name: label_1
     layout_properties: {grid_position: 'SWXZCV,YHUJKY'}
   - type: TextBox
-    properties: {}
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
     name: critical
     layout_properties: {grid_position: 'SWXZCV,KDPIVE'}
     event_bindings: {pressed_enter: critical_pressed_enter}
@@ -117,7 +120,10 @@ components:
     name: label_2
     layout_properties: {grid_position: 'OGMPAH,SRHZFP'}
   - type: TextBox
-    properties: {}
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
     name: high
     layout_properties: {grid_position: 'OGMPAH,DTXRZG'}
   - type: Label
@@ -128,7 +134,10 @@ components:
     name: label_3
     layout_properties: {grid_position: 'ADENJQ,BARITC', slot: default}
   - type: TextBox
-    properties: {}
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
     name: normal
     layout_properties: {slot: default, grid_position: 'ADENJQ,HFTJEO'}
   - type: Label
@@ -139,7 +148,10 @@ components:
     name: label_4
     layout_properties: {grid_position: 'OJSYNH,AJTHOX'}
   - type: TextBox
-    properties: {}
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
     name: low
     layout_properties: {grid_position: 'OJSYNH,SIFIRM'}
   - type: Label
@@ -150,7 +162,10 @@ components:
     name: label_5
     layout_properties: {grid_position: 'VWCQXY,RBBTDC'}
   - type: TextBox
-    properties: {}
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
     name: trivial
     layout_properties: {grid_position: 'VWCQXY,UVOSIO'}
   - type: Label
