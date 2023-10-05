@@ -254,8 +254,6 @@ class RSAKPI(RSAKPITemplate):
 
     a = Account("https://rsa.sifterapp.com/api/projects/23454", "8de196b4c23a45f62676e9c08aec5490")
     RSA = a.project()
-    print ("****************************************")   
-    print (RSA.name)
     RSATickets = RSA.issues()
 
     c = RSATickets[0].getComments()
@@ -263,12 +261,14 @@ class RSAKPI(RSAKPITemplate):
 
     print (len(RSATickets))
 
+    
+    
     for kpi in RSATickets:
 
         kpi_created = dateutil.parser.parse(kpi.created_at)
         tz = kpi_created.tzinfo
 
-        if kpi_created.year == 2023 and kpi_created.month == 5:
+        if kpi_created.year == self.year.selected_value and kpi_created.month == 5:
             print(str(kpi.number) + ' included in this month')
 
             failedresponse = []
