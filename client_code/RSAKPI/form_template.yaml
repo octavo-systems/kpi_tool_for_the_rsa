@@ -337,6 +337,7 @@ components:
   properties: {}
   name: service_requests
   layout_properties: {slot: default}
+  event_bindings: {pressed_enter: service_requests_pressed_enter}
 - type: Label
   properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
     text: 7. Percentage of service requests that met service levels., font_size: null,
