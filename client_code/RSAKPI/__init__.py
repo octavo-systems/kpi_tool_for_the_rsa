@@ -206,7 +206,7 @@ def exceedsResponse(iss, priority):
     if commentor in rational:
         return False
     else:
-        responseDue = dateutil.parser.parse(kpi.created_at) + priority
+        responseDue = dateutil.parser.parse(iss.created_at) + priority
         for comment in iss.comments[1:]:
             commentor = ''.join(comment.commenter.split())
             if commentor in rational:
@@ -242,6 +242,8 @@ class RSAKPI(RSAKPITemplate):
     print (c[0].commenter)
 
     print (len(RSATickets))
+
+    failedresponse = []
     
     for kpi in RSATickets:
 
@@ -340,11 +342,11 @@ class RSAKPI(RSAKPITemplate):
   
         report.write( HC_NEWLINE +'Failed SLAs on SIFTER response time for: ' + HC_NEWLINE)
   
-        if len(failedresponse) == 0:
+        if len(self.failedresponse) == 0:
             report.write( HC_NEWLINE +'None.' + HC_NEWLINE)
         else:
             report.write( HC_NEWLINE )
-            for kpifailure in failedresponse:
+            for kpifailure in self.failedresponse:
                 report.write( 'SIFTER  ' + HC_TAB + kpifailure + HC_NEWLINE )
   
         report.write( HC_NEWLINE )
