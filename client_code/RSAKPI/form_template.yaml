@@ -109,8 +109,7 @@ components:
     name: critical
     layout_properties: {grid_position: 'SWXZCV,KDPIVE'}
     event_bindings: {pressed_enter: critical_pressed_enter}
-    data_bindings:
-    - {property: text, code: 'self.item[''critical'']', writeback: true}
+    data_bindings: []
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
       visible: true, text: 'High
