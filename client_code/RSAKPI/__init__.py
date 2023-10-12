@@ -1,3 +1,5 @@
+from ._anvil_designer import RSAKPITemplate
+import anvil.server
 
 class RSAKPI(RSAKPITemplate):
   def __init__(self, **properties):
@@ -12,6 +14,7 @@ class RSAKPI(RSAKPITemplate):
 
   def sifter_btn_click(self, **event_args):
     """This method is called when the sifter button is clicked"""
+    anvil.server.call('GetRSASIFTER', self.__dict__)
     
   def save_btn_click(self, **event_args):
     """This method is called when the save button is clicked"""

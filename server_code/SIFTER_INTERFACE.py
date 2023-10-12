@@ -1,6 +1,7 @@
 from anvil import *
+import anvil.server
 import requests
-import anvil.http
+#import anvil.http
 import json
 import datetime
 import dateutil.parser 
@@ -220,7 +221,7 @@ def exceedsResponse(iss, priority):
 
 
 @anvil.server.callable
-def GetRSASIFTER():
+def GetRSASIFTER(form):
 
     P1 = datetime.timedelta(minutes=30)
     P2 = datetime.timedelta(minutes=60)
@@ -243,74 +244,74 @@ def GetRSASIFTER():
         kpi_created = dateutil.parser.parse(kpi.created_at)
         tz = kpi_created.tzinfo
 
-        if kpi_created.year == int(self.year.selected_value) and kpi_created.month == int(self.month.selected_value):
+        if kpi_created.year == int(form.year.selected_value) and kpi_created.month == int(form.month.selected_value):
             print(str(kpi.number) + ' included in this month')
 
             failedresponse = []
 
             if kpi.priority == "Critical": 
-                self.critical.text = self.critical.text + 1
+                form.critical.text = form.critical.text + 1
                 if exceedsResponse(kpi,P1):
                     print(str(kpi.number)+' Exceeds response time')
                     failedresponse.append('P1 : '+str(kpi.number))
             elif kpi.priority == "High":
-                self.high.text = self.high.text + 1
+                form.high.text = form.high.text + 1
                 if exceedsResponse(kpi,P2):
                     print(str(kpi.number)+' Exceeds response time')
                     failedresponse.append('P2 : '+str(kpi.number))                
             elif kpi.priority == "Normal": 
-                self.normal.text = self.normal.text + 1                
+                form.normal.text = form.normal.text + 1                
                 if exceedsResponse(kpi,P3):
                     print(str(kpi.number)+' Exceeds response time')  
                     failedresponse.append('P3 : '+str(kpi.number))                                  
 
             elif kpi.priority == "Low":
-                self.low.text = self.low.text + 1                
+                form.low.text = form.low.text + 1                
                 if exceedsResponse(kpi,P4):
                     print(str(kpi.number)+' Exceeds response time') 
                     failedresponse.append('P4 : '+str(kpi.number))                                    
             elif kpi.priority == "Trivial":                
-                self.trivial.text = self.trivial.text + 1
+                form.trivial.text = form.trivial.text + 1
             else: 
                 print('Unexpected Priority found : '+ kpi.priority)
 
             if kpi.category_name == "Service Request":
-                self.service_requests.text = self.service_requests.text + 1
+                form.service_requests.text = form.service_requests.text + 1
 
             if kpi.subject[1:17].lower == "application error":
-                self.system_logs.text = self.system_logs.text + 1
+                form.system_logs.text = form.system_logs.text + 1
 
             if kpi.subject[1:5].lower == "dvcsd":
-                self.dvcsd_contacts.text = self.dvcsd_contacts.text + 1
+                form.dvcsd_contacts.text = form.dvcsd_contacts.text + 1
 
             if dateutil.parser.parse(kpi.created_at) + datetime.timedelta(days=10) >= datetime.datetime.now(tz):
-                self.tickets_less_than_ten_days.text = self.tickets_less_than_ten_days.text + 1
+                form.tickets_less_than_ten_days.text = form.tickets_less_than_ten_days.text + 1
 
             if dateutil.parser.parse(kpi.created_at) + datetime.timedelta(days=60) <= datetime.datetime.now(tz):
-                self.tickets_more_than_sixty.text = self.tickets_more_than_sixty.text + 1 
+                form.tickets_more_than_sixty.text = form.tickets_more_than_sixty.text + 1 
 
             if kpi.status == "Open":
-                self.open.text = self.open.text +1
+                form.open.text = form.open.text +1
             elif kpi.status == "Reopened":
-                self.reopened.text = self.reopened.text + 1
+                form.reopened.text = form.reopened.text + 1
             elif kpi.status == "Follow Up":
-                self.followup.text = self.followup.text + 1
+                form.followup.text = form.followup.text + 1
             elif kpi.status == "Resolved":
-                self.resolved.text = self.resolved.text + 1
+                form.resolved.text = form.resolved.text + 1
             elif kpi.status == "Closed":
-                self.closed.text = self.closed.text + 1
+                form.closed.text = form.closed.text + 1
             else: 
                 print('Unexpected status found : '+ kpi.status)  
 
-            self.total.text = self.open.text + self.reopened.text + self.followup.text + self.resolved.text + self.closed.text
+            form.total.text = form.open.text + form.reopened.text + form.followup.text + form.resolved.text + form.closed.text
 
 
 
     print("New this month:")
-    print("Critical : " + str(self.critical.text))
-    print("High : " + str(self.high.text))
-    print("Normal : " + str(self.normal.text))
-    print("Low : " + str(self.low.text))
-    print("Trivial : " + str(self.trivial.text))
+    print("Critical : " + str(form.critical.text))
+    print("High : " + str(form.high.text))
+    print("Normal : " + str(form.normal.text))
+    print("Low : " + str(form.low.text))
+    print("Trivial : " + str(form.trivial.text))
 
     return
