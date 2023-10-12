@@ -1,6 +1,7 @@
 from ._anvil_designer import RSAKPITemplate
 from anvil import *
-import requests
+#import requests
+import anvil.http
 import json
 import datetime
 import dateutil.parser 
@@ -177,7 +178,8 @@ class Account(object):
 
     def request(self, url):
         """Requests JSON object from Sifter URL"""
-        req = requests.get(url, headers={'X-Sifter-Token': self.token,'Accept': 'application/json'})
+        #req = requests.get(url, headers={'X-Sifter-Token': self.token,'Accept': 'application/json'})
+        req = anvil.http.request.get(url, headers={'X-Sifter-Token': self.token,'Accept': 'application/json'})
         try:
             loadcontent =  json.loads(req.content)
         except ValueError:
