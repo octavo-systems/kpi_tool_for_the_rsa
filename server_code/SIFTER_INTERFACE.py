@@ -1,19 +1,10 @@
-import anvil.server
+from anvil import *
 import requests
+import anvil.http
 import json
+import datetime
+import dateutil.parser 
 
-# This is a server module. It runs on the Anvil server,
-# rather than in the user's browser.
-#
-# To allow anvil.server.call() to call functions here, we mark
-# them with @anvil.server.callable.
-# Here is an example - you can replace it with your own:
-#
-# @anvil.server.callable
-# def say_hello(name):
-#   print("Hello, " + name + "!")
-#   return 42
-#
 
 class Category(object):
     """Representation of a Category in Sifter"""
@@ -72,18 +63,21 @@ class Issue(object):
         self.comment_count = issue['comment_count']
         self.created_at = issue['created_at']
         self.updated_at = issue['updated_at']
+        #Lets make it store the stuff rather than get it each time.
+        self.comments = []
 
-    def comments(self):
+    def getComments(self):
         """Gets Comments for a given Issue"""
-        comments = []
-        json_raw = self._account.request(self.api_url)
-        raw_issue = json_raw['issue']
-        raw_comments = raw_issue['comments']
-        for raw_comment in raw_comments:
-            c = comment.Comment(raw_comment)
-            comments.append(c)
+        if len(self.comments) == 0:        
+            json_raw = self._account.request(self.api_url)
+            raw_issue = json_raw['issue']
+            raw_comments = raw_issue['comments']
+            for raw_comment in raw_comments:
+                c = Comment(raw_comment)
+                self.comments.append(c)
 
-        return comments
+            
+        return self.comments
 
 class Project(object):
     """Representation of a project in Sifter"""
@@ -105,8 +99,8 @@ class Project(object):
         """Gets all the issues for a given project"""
         issues = []
 
-        # Set per_page to 25 issues per page
-        first_page = self.api_issues_url + '?per_page=25&page=1'
+        # Sort by updated to get most recent activity - added per_page = 10 for debug
+        first_page = self.api_issues_url + '?srt=updated&per_page=40'
 
         # Get page one
         json_raw = self._account.request(first_page)
@@ -118,12 +112,13 @@ class Project(object):
         number_of_pages = json_raw['total_pages']
         print("Num Pages: ",number_of_pages)
         #for current_page in range(number_of_pages):
-        for current_page in range(2):
+        for current_page in range(1):
          
             # Create a wrapper for each issue, add it to the list
             raw_issues = json_raw['issues']
             for raw_issue in raw_issues:
                 i = Issue(raw_issue, self._account)
+                i.getComments()
                 issues.append(i)
 
             # Make a request for the next page
@@ -183,6 +178,7 @@ class Account(object):
     def request(self, url):
         """Requests JSON object from Sifter URL"""
         req = requests.get(url, headers={'X-Sifter-Token': self.token,'Accept': 'application/json'})
+        #anvil.http.request(url, headers={'X-Sifter-Token': self.token,'Accept': 'application/json'})
         try:
             loadcontent =  json.loads(req.content)
         except ValueError:
@@ -190,70 +186,131 @@ class Account(object):
         else:
             return loadcontent
 
-    def projects(self):
-        """Gets all the projects from sifter"""
-        projects = []
+    def project(self):
+        """Gets the project from RSA sifter account"""
+
         json_raw = self.request(self.url)
         print(json_raw)
-        raw_projects = json_raw['projects']
-        for raw_project in raw_projects:
-            proj = Project(raw_project, self)
-            projects.append(proj)
+        raw_project = json_raw['project']
+        proj = Project(raw_project, self)
 
-        return projects
 
-    def projectRSA(self):
-        """Gets all the issues from RSA sifter"""
-        issues = []
-        json_raw = self.request(self.url)
-        print(json_raw)
-        raw_issues = json_raw['issues']
-        for raw_issue in raw_issues:
-            issue = Issue(raw_issue, self)
-            issues.append(issue)
+        return proj
+    
 
-        return issues
+def exceedsResponse(iss, priority):
+    rational = 'MarkKennedy,AdrianWilliamson,RoyHann,WojtekRappak,PatJennings'
+
+    #Lets Squeeze the name as my name has two space for some reason
+    commentor = ''.join(iss.opener_name.split())
+
+    if commentor in rational:
+        return False
+    else:
+        responseDue = dateutil.parser.parse(iss.created_at) + priority
+        for comment in iss.comments[1:]:
+            commentor = ''.join(comment.commenter.split())
+            if commentor in rational:
+                if dateutil.parser.parse(comment.created_at) > responseDue:
+                    return True
+                else:
+                    return False
+
+
 
 
 @anvil.server.callable
 def GetRSASIFTER():
-  a = Account("https://rsa.sifterapp.com/api/projects/23454/issues?srt=updated", "8de196b4c23a45f62676e9c08aec5490")
-  #a = Account("https://rsa.sifterapp.com/api/projects", "8de196b4c23a45f62676e9c08aec5490")
-  projects = a.projectRSA() # use projects method to get projects
-    # dprint some of your project info to the screen to test that
-    # sifter-python is working
-  for p in projects:
-    print ("****************************************")   
-    print (p.name)
-    # print issues info
-    issues = p.issues()
-    for i in issues:
-        print (i.number, i.status, i.priority, i.subject)
-        (c)
-    print
-    print ("*** milestones ***")
-    milestones = p.milestones()
-    for m in milestones:
-        print (m.name, m.due_date)
+
+    P1 = datetime.timedelta(minutes=30)
+    P2 = datetime.timedelta(minutes=60)
+    P3 = datetime.timedelta(hours=4)
+    P4 = datetime.timedelta(hours=24)
+
+    a = Account("https://rsa.sifterapp.com/api/projects/23454", "8de196b4c23a45f62676e9c08aec5490")
+    RSA = a.project()
+    RSATickets = RSA.issues()
+
+    c = RSATickets[0].getComments()
+    print (c[0].commenter)
+
+    print (len(RSATickets))
+
+    failedresponse = []
     
-    print
-    print ("*** categories ***")            
-    categories = p.categories()
-    for c in categories:
-        print (c.name)
-        
-    print
-    print ("*** people ***")            
-    people = p.people()
-    for u in people:
-        print (u.first_name, u.last_name)
-        
-    print
-    print ("****************************************")
+    for kpi in RSATickets:
 
-  return 0  
+        kpi_created = dateutil.parser.parse(kpi.created_at)
+        tz = kpi_created.tzinfo
+
+        if kpi_created.year == int(self.year.selected_value) and kpi_created.month == int(self.month.selected_value):
+            print(str(kpi.number) + ' included in this month')
+
+            failedresponse = []
+
+            if kpi.priority == "Critical": 
+                self.critical.text = self.critical.text + 1
+                if exceedsResponse(kpi,P1):
+                    print(str(kpi.number)+' Exceeds response time')
+                    failedresponse.append('P1 : '+str(kpi.number))
+            elif kpi.priority == "High":
+                self.high.text = self.high.text + 1
+                if exceedsResponse(kpi,P2):
+                    print(str(kpi.number)+' Exceeds response time')
+                    failedresponse.append('P2 : '+str(kpi.number))                
+            elif kpi.priority == "Normal": 
+                self.normal.text = self.normal.text + 1                
+                if exceedsResponse(kpi,P3):
+                    print(str(kpi.number)+' Exceeds response time')  
+                    failedresponse.append('P3 : '+str(kpi.number))                                  
+
+            elif kpi.priority == "Low":
+                self.low.text = self.low.text + 1                
+                if exceedsResponse(kpi,P4):
+                    print(str(kpi.number)+' Exceeds response time') 
+                    failedresponse.append('P4 : '+str(kpi.number))                                    
+            elif kpi.priority == "Trivial":                
+                self.trivial.text = self.trivial.text + 1
+            else: 
+                print('Unexpected Priority found : '+ kpi.priority)
+
+            if kpi.category_name == "Service Request":
+                self.service_requests.text = self.service_requests.text + 1
+
+            if kpi.subject[1:17].lower == "application error":
+                self.system_logs.text = self.system_logs.text + 1
+
+            if kpi.subject[1:5].lower == "dvcsd":
+                self.dvcsd_contacts.text = self.dvcsd_contacts.text + 1
+
+            if dateutil.parser.parse(kpi.created_at) + datetime.timedelta(days=10) >= datetime.datetime.now(tz):
+                self.tickets_less_than_ten_days.text = self.tickets_less_than_ten_days.text + 1
+
+            if dateutil.parser.parse(kpi.created_at) + datetime.timedelta(days=60) <= datetime.datetime.now(tz):
+                self.tickets_more_than_sixty.text = self.tickets_more_than_sixty.text + 1 
+
+            if kpi.status == "Open":
+                self.open.text = self.open.text +1
+            elif kpi.status == "Reopened":
+                self.reopened.text = self.reopened.text + 1
+            elif kpi.status == "Follow Up":
+                self.followup.text = self.followup.text + 1
+            elif kpi.status == "Resolved":
+                self.resolved.text = self.resolved.text + 1
+            elif kpi.status == "Closed":
+                self.closed.text = self.closed.text + 1
+            else: 
+                print('Unexpected status found : '+ kpi.status)  
+
+            self.total.text = self.open.text + self.reopened.text + self.followup.text + self.resolved.text + self.closed.text
 
 
 
+    print("New this month:")
+    print("Critical : " + str(self.critical.text))
+    print("High : " + str(self.high.text))
+    print("Normal : " + str(self.normal.text))
+    print("Low : " + str(self.low.text))
+    print("Trivial : " + str(self.trivial.text))
 
-
+    return
