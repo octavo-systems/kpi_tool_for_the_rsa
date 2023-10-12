@@ -1,6 +1,6 @@
 from ._anvil_designer import RSAKPITemplate
 from anvil import *
-import requests
+#import requests
 import json
 import datetime
 import dateutil.parser 
