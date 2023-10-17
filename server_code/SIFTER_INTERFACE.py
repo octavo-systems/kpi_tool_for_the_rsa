@@ -1,5 +1,4 @@
 from anvil import *
-from .RSAKPI.transport_layer import KPITRANS
 from . import transport_layer
 import anvil.server
 import requests
