@@ -222,7 +222,7 @@ def exceedsResponse(iss, priority):
 
 @anvil.server.callable
 def GetRSASIFTER(form):
-  
+    print(form)  
     P1 = datetime.timedelta(minutes=30)
     P2 = datetime.timedelta(minutes=60)
     P3 = datetime.timedelta(hours=4)
