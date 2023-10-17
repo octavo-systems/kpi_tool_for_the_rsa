@@ -1,5 +1,5 @@
 from anvil import *
-from . import transport_layer
+from .RSAKPI import transport_layer
 import anvil.server
 import requests
 #import anvil.http
@@ -220,13 +220,13 @@ def exceedsResponse(iss, priority):
 
 
 @anvil.server.callable
-def GetRSASIFTER(form: KPITRANS, check: str) -> KPITRANS:
+def GetRSASIFTER(form: transport_layer.KPITRANS, check: str) -> transport_layer.KPITRANS:
 
-    print('Server Check str  = ' + check)
-    print('Server Year = ' + str(form.year))
-    form.critical = 42
-    print('Server critical = ' + str(form.critical))  
-    return form
+    #print('Server Check str  = ' + check)
+    #print('Server Year = ' + str(form.year))
+    #form.critical = 42
+    #print('Server critical = ' + str(form.critical))  
+    #return form
   
     P1 = datetime.timedelta(minutes=30)
     P2 = datetime.timedelta(minutes=60)
@@ -308,15 +308,13 @@ def GetRSASIFTER(form: KPITRANS, check: str) -> KPITRANS:
             else: 
                 print('Unexpected status found : '+ kpi.status)  
 
-            form.total = form.open.text + form.reopened.text + form.followup.text + form.resolved.text + form.closed.text
-
-
+            form.total = form.open + form.reopened + form.followup + form.resolved + form.closed
 
     print("New this month:")
-    print("Critical : " + str(form.critical.text))
-    print("High : " + str(form.high.text))
-    print("Normal : " + str(form.normal.text))
-    print("Low : " + str(form.low.text))
-    print("Trivial : " + str(form.trivial.text))
+    print("Critical : " + str(form.critical))
+    print("High : " + str(form.high))
+    print("Normal : " + str(form.normal))
+    print("Low : " + str(form.low))
+    print("Trivial : " + str(form.trivial))
 
     return form
