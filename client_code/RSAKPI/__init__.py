@@ -1,6 +1,6 @@
 from ._anvil_designer import RSAKPITemplate
 import anvil.server
-from ..transport_layer import KPITRANS
+from .transport_layer import KPITRANS
 
 class RSAKPI(RSAKPITemplate):
   def __init__(self, **properties):
