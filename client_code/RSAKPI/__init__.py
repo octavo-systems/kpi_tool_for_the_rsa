@@ -14,11 +14,13 @@ class RSAKPI(RSAKPITemplate):
 
   def sifter_btn_click(self, **event_args):
     """This method is called when the sifter button is clicked"""
+    # Passing self give a serialisation error
+    # As with OpenROAD JSON does not support by reference parameters
     anvil.server.call('GetRSASIFTER', self.__dict__)
     
   def save_btn_click(self, **event_args):
     """This method is called when the save button is clicked"""
-    with open('c:\\temp\\python_kpi_report.txt', 'a') as report:
+    with open('c:\\temp\\kpi_report_'+self.month.selected_value+'_'+self.year.selected_value+'.txt', 'a') as report:
         HC_NEWLINE = '\n'
         HC_TAB = '\t'
         report.write( 'RSA KPI Report for '+'Test Month' +HC_NEWLINE)
