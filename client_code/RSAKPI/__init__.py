@@ -1,6 +1,6 @@
 from ._anvil_designer import RSAKPITemplate
 import anvil.server
-import transport_layer
+from ..transport_layer import KPITRANS
 
 class RSAKPI(RSAKPITemplate):
   def __init__(self, **properties):
@@ -21,9 +21,14 @@ class RSAKPI(RSAKPITemplate):
     results = KPITRANS
     results.month = self.month.selected_value
     results.year = int(self.year.selected_value)
-    results = anvil.server.call('GetRSASIFTER', results)
 
-    print(KPITRANS)
+    print ('Client year '+str(results.year) )
+    print ('Client month '+str(results.month) )
+    
+    result = anvil.server.call('GetRSASIFTER', form = results, check = 'WTF?')
+
+    print ('Client year '+str(result.year) )
+    print('Client critical '+str(result.critical))
     
   
   def save_btn_click(self, **event_args):

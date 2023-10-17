@@ -1,4 +1,5 @@
 from anvil import *
+from .transport_layer import KPITRANS
 import anvil.server
 import requests
 #import anvil.http
@@ -217,40 +218,16 @@ def exceedsResponse(iss, priority):
                 else:
                     return False
 
-@anvil.server.portable_class
-class KPITRANS():
-  
-  #Parameters in.
-  month = 0
-  year = 0
-
-  #Parameters out
-  critical = 0
-  high = 0
-  normal = 0
-  low = 0
-  trivial = 0
-  service_requests = 0
-  system_logs = 0
-  dvcsd_contacts = 0
-  tickets_less_than_ten_days = 0
-  tickets_more_than_sixty = 0
-
-  openSifters = 0
-  reopenedSifters = 0
-  followupSifters = 0
-  resolvedSifters = 0
-  closedSifters = 0
-  totalSifters = 0
-  percentage_incidents_in_sla = 0
-
-  def __init__(self):
-    pass
-
 
 @anvil.server.callable
-def GetRSASIFTER(form):
-    print(form)  
+def GetRSASIFTER(form: KPITRANS, check: str) -> KPITRANS:
+
+    print('Server Check str  = ' + check)
+    print('Server Year = ' + str(form.year))
+    form.critical = 42
+    print('Server critical = ' + str(form.critical))  
+    return form
+  
     P1 = datetime.timedelta(minutes=30)
     P2 = datetime.timedelta(minutes=60)
     P3 = datetime.timedelta(hours=4)
