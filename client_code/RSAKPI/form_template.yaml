@@ -19,8 +19,7 @@ components:
       border: ''
       enabled: true
       foreground: ''
-      items: [January, February, March, April, May, June, July, August, October, November,
-        December]
+      items: ['']
       visible: true
       font_size: null
       font: ''
@@ -179,7 +178,6 @@ components:
       role: null
       columns:
       - {id: PCNSDB, title: SIFTER, data_key: sifter, $$hashKey: 'object:101333'}
-      - {id: TDTHCE, title: Priority, data_key: priority, $$hashKey: 'object:101334'}
       auto_header: true
       tooltip: ''
       border: ''

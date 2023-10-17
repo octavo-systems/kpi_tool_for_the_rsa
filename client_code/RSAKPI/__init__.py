@@ -1,5 +1,6 @@
 from ._anvil_designer import RSAKPITemplate
 import anvil.server
+from . import transport_layer
 
 class RSAKPI(RSAKPITemplate):
   def __init__(self, **properties):
@@ -7,6 +8,7 @@ class RSAKPI(RSAKPITemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    self.month.items = [("January", 1),("February",2),("March",3),("April",4),("May",5),("June",6),("July",7),("August",8),("September",9),("October",10),("November",11),("December",12)]
 
   def exit_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -14,11 +16,39 @@ class RSAKPI(RSAKPITemplate):
 
   def sifter_btn_click(self, **event_args):
     """This method is called when the sifter button is clicked"""
-    anvil.server.call('GetRSASIFTER', self.__dict__)
+    # Passing self give a serialisation error
+    # As with OpenROAD JSON does not support by reference parameters
+    CurFrame = transport_layer.KPITRANS()
+    CurFrame.month = self.month.selected_value
+    CurFrame.year = int(self.year.selected_value)
+
+    print ('Client year '+str(CurFrame.year) )
+    print ('Client month '+str(CurFrame.month) )
     
+    result = anvil.server.call('GetRSASIFTER', form = CurFrame, check = 'WTF?')
+
+    print ('Client year '+str(result.year) )
+    print('Client critical '+str(result.critical))
+
+    self.critical.text = result.critical
+    self.high.text = result.high
+    self.normal.text = result.normal
+    self.low.text = reult.low
+    self.trivial = result.trivial
+
+    #Failed reposne section
+    self.failedresponse = result.failedresponse
+    
+    self.open = result.open
+    self.reopened = result.reopened
+    self.followup = result.followup
+    self.resolved = result.resolved
+    self.closed = result.closed
+    self.total = result.total
+
   def save_btn_click(self, **event_args):
     """This method is called when the save button is clicked"""
-    with open('c:\\temp\\python_kpi_report.txt', 'a') as report:
+    with open('c:\\temp\\kpi_report_'+self.month.selected_value+'_'+self.year.selected_value+'.txt', 'a') as report:
         HC_NEWLINE = '\n'
         HC_TAB = '\t'
         report.write( 'RSA KPI Report for '+'Test Month' +HC_NEWLINE)
