@@ -20,18 +20,21 @@ class KPITRANS():
   normal = 0
   low = 0
   trivial = 0
+
+  failedresponse = []
+  
   service_requests = 0
   system_logs = 0
   dvcsd_contacts = 0
   tickets_less_than_ten_days = 0
   tickets_more_than_sixty = 0
 
-  openSifters = 0
-  reopenedSifters = 0
-  followupSifters = 0
-  resolvedSifters = 0
-  closedSifters = 0
-  totalSifters = 0
+  open = 0
+  reopened = 0
+  followup = 0
+  resolved = 0
+  closed = 0
+  total= 0
   percentage_incidents_in_sla = 0
 
   def __init__(self):

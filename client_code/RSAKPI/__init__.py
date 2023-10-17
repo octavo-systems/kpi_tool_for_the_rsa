@@ -18,19 +18,34 @@ class RSAKPI(RSAKPITemplate):
     """This method is called when the sifter button is clicked"""
     # Passing self give a serialisation error
     # As with OpenROAD JSON does not support by reference parameters
-    results = transport_layer.KPITRANS()
-    results.month = self.month.selected_value
-    results.year = int(self.year.selected_value)
+    CurFrame = transport_layer.KPITRANS()
+    CurFrame.month = self.month.selected_value
+    CurFrame.year = int(self.year.selected_value)
 
-    print ('Client year '+str(results.year) )
-    print ('Client month '+str(results.month) )
+    print ('Client year '+str(CurFrame.year) )
+    print ('Client month '+str(CurFrame.month) )
     
-    result = anvil.server.call('GetRSASIFTER', form = results, check = 'WTF?')
+    result = anvil.server.call('GetRSASIFTER', form = CurFrame, check = 'WTF?')
 
     print ('Client year '+str(result.year) )
     print('Client critical '+str(result.critical))
+
+    self.critical.text = result.critical
+    self.high.text = result.high
+    self.normal.text = result.normal
+    self.low.text = reult.low
+    self.trivial = result.trivial
+
+    #Failed reposne section
+    self.failedresponse = result.failedresponse
     
-  
+    self.open = result.open
+    self.reopened = result.reopened
+    self.followup = result.followup
+    self.resolved = result.resolved
+    self.closed = result.closed
+    self.total = result.total
+
   def save_btn_click(self, **event_args):
     """This method is called when the save button is clicked"""
     with open('c:\\temp\\kpi_report_'+self.month.selected_value+'_'+self.year.selected_value+'.txt', 'a') as report:

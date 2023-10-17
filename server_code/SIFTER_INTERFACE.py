@@ -280,6 +280,8 @@ def GetRSASIFTER(form: transport_layer.KPITRANS, check: str) -> transport_layer.
             else: 
                 print('Unexpected Priority found : '+ kpi.priority)
 
+            form.failedresponse = failedresponse
+
             if kpi.category_name == "Service Request":
                 form.service_requests = form.service_requests + 1
 
