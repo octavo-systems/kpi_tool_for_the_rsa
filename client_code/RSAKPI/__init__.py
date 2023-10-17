@@ -1,7 +1,7 @@
 from ._anvil_designer import RSAKPITemplate
 import anvil.server
 
-class KPITRANS(self):
+class KPITRANS():
   #Parameters in.
   month = 0
   year = 0
@@ -42,9 +42,15 @@ class RSAKPI(RSAKPITemplate):
     """This method is called when the sifter button is clicked"""
     # Passing self give a serialisation error
     # As with OpenROAD JSON does not support by reference parameters
-    
-    anvil.server.call('GetRSASIFTER', self.__dict__)
-    
+    results = KPITRANS
+    KPITRANS.month = int(self.month.selected_value)
+    KPITRANS.month = int(self.year.selected_value)
+    KPITRANS = anvil.server.call('GetRSASIFTER', KPITRANS)
+
+      
+
+
+  
   def save_btn_click(self, **event_args):
     """This method is called when the save button is clicked"""
     with open('c:\\temp\\kpi_report_'+self.month.selected_value+'_'+self.year.selected_value+'.txt', 'a') as report:
