@@ -220,7 +220,7 @@ def exceedsResponse(iss, priority):
 
 
 @anvil.server.callable
-def GetRSASIFTER(form: transport_layer.KPITRANS, check: str) -> transport_layer.KPITRANS:
+def GetRSASIFTER(form: transport_layer.KPITRANS) -> transport_layer.KPITRANS:
 
     #print('Server Check str  = ' + check)
     #print('Server Year = ' + str(form.year))

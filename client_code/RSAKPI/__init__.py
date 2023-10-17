@@ -25,7 +25,7 @@ class RSAKPI(RSAKPITemplate):
     print ('Client year '+str(CurFrame.year) )
     print ('Client month '+str(CurFrame.month) )
     
-    result = anvil.server.call('GetRSASIFTER', form = CurFrame, check = 'WTF?')
+    result = anvil.server.call('GetRSASIFTER', form = CurFrame)
 
     print ('Client year '+str(result.year) )
     print('Client critical '+str(result.critical))
