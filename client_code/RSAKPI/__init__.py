@@ -1,7 +1,9 @@
 from ._anvil_designer import RSAKPITemplate
 import anvil.server
 
+@anvil.server.portable_class
 class KPITRANS():
+  
   #Parameters in.
   month = 0
   year = 0
@@ -26,6 +28,9 @@ class KPITRANS():
   totalSifters = 0
   percentage_incidents_in_sla = 0
 
+  def __init__(self):
+    pass
+
 
 class RSAKPI(RSAKPITemplate):
   def __init__(self, **properties):
@@ -43,10 +48,11 @@ class RSAKPI(RSAKPITemplate):
     # Passing self give a serialisation error
     # As with OpenROAD JSON does not support by reference parameters
     results = KPITRANS
-    KPITRANS.month = int(self.month.selected_value)
-    KPITRANS.month = int(self.year.selected_value)
-    KPITRANS = anvil.server.call('GetRSASIFTER', KPITRANS)
+    results.month = int(self.month.selected_value)
+    results.month = int(self.year.selected_value)
+    results = anvil.server.call('GetRSASIFTER', results)
 
+    print(KPITRANS)
       
 
 
