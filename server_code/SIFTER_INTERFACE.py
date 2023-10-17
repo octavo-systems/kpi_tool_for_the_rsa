@@ -217,7 +217,9 @@ def exceedsResponse(iss, priority):
                 else:
                     return False
 
-class KPITRANS(self):
+@anvil.server.portable_class
+class KPITRANS():
+  
   #Parameters in.
   month = 0
   year = 0
@@ -241,6 +243,9 @@ class KPITRANS(self):
   closedSifters = 0
   totalSifters = 0
   percentage_incidents_in_sla = 0
+
+  def __init__(self):
+    pass
 
 
 @anvil.server.callable

@@ -1,36 +1,6 @@
 from ._anvil_designer import RSAKPITemplate
 import anvil.server
-
-@anvil.server.portable_class
-class KPITRANS():
-  
-  #Parameters in.
-  month = 0
-  year = 0
-
-  #Parameters out
-  critical = 0
-  high = 0
-  normal = 0
-  low = 0
-  trivial = 0
-  service_requests = 0
-  system_logs = 0
-  dvcsd_contacts = 0
-  tickets_less_than_ten_days = 0
-  tickets_more_than_sixty = 0
-
-  openSifters = 0
-  reopenedSifters = 0
-  followupSifters = 0
-  resolvedSifters = 0
-  closedSifters = 0
-  totalSifters = 0
-  percentage_incidents_in_sla = 0
-
-  def __init__(self):
-    pass
-
+import transport_layer
 
 class RSAKPI(RSAKPITemplate):
   def __init__(self, **properties):
@@ -38,6 +8,7 @@ class RSAKPI(RSAKPITemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    self.month.items = [("January", 1),("February",2),("March",3),("April",4),("May",5),("June",6),("July",7),("August",8),("September",9),("October",10),("November",11),("December",12)]
 
   def exit_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
@@ -48,14 +19,12 @@ class RSAKPI(RSAKPITemplate):
     # Passing self give a serialisation error
     # As with OpenROAD JSON does not support by reference parameters
     results = KPITRANS
-    results.month = int(self.month.selected_value)
-    results.month = int(self.year.selected_value)
+    results.month = self.month.selected_value
+    results.year = int(self.year.selected_value)
     results = anvil.server.call('GetRSASIFTER', results)
 
     print(KPITRANS)
-      
-
-
+    
   
   def save_btn_click(self, **event_args):
     """This method is called when the save button is clicked"""
