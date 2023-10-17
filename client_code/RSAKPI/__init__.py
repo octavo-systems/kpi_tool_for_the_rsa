@@ -1,6 +1,6 @@
 from ._anvil_designer import RSAKPITemplate
 import anvil.server
-from .transport_layer import KPITRANS
+from .. import transport_layer
 
 class RSAKPI(RSAKPITemplate):
   def __init__(self, **properties):
@@ -18,7 +18,7 @@ class RSAKPI(RSAKPITemplate):
     """This method is called when the sifter button is clicked"""
     # Passing self give a serialisation error
     # As with OpenROAD JSON does not support by reference parameters
-    results = KPITRANS
+    results = transport_layer.KPITRANS()
     results.month = self.month.selected_value
     results.year = int(self.year.selected_value)
 
