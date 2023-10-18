@@ -3,14 +3,15 @@ services:
   client_config: {}
   server_config: {}
 startup: {type: form, module: RSAKPI}
-package_name: KPI_Tool_for_the_RSA
+package_name: RSAKPI_Optimisation
 allow_embedding: false
-name: KPI Tool for the RSA
+name: RSAKPI Optimisation
 runtime_options:
   version: 2
   client_version: '3'
   server_version: python3-sandbox
   server_spec: {base: python310-minimal}
-metadata: {title: KPI Tool for the RSA, description: KPI Tool for the RSA, logo_img: 'https://www.rsa.ie/images/default-source/dummy-content/default-album/logo.svg?sfvrsn=2e65bc60_6'}
+metadata: {title: KPI Tool for the RSA V2, description: Avoid Server timeouts on ANVIL,
+  logo_img: 'https://www.rsa.ie/images/default-source/dummy-content/default-album/logo.svg?sfvrsn=2e65bc60_6'}
 startup_form: null
 native_deps: {head_html: ''}

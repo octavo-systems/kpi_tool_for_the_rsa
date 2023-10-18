@@ -218,104 +218,13 @@ def exceedsResponse(iss, priority):
 
 
 @anvil.server.callable
-def GetRSASIFTER(form: transport_layer.KPITRANS) -> transport_layer.KPITRANS:
+def GetRSASIFTER(priority: int ) -> int:
 
     print("Python Server Version = " + sys.version)
   
-    #print('Server Year = ' + str(form.year))
-    #form.critical = 42
-    #print('Server critical = ' + str(form.critical))  
-    #return form
-  
-    P1 = datetime.timedelta(minutes=30)
-    P2 = datetime.timedelta(minutes=60)
-    P3 = datetime.timedelta(hours=4)
-    P4 = datetime.timedelta(hours=24)
-
     a = Account("https://rsa.sifterapp.com/api/projects/23454", "8de196b4c23a45f62676e9c08aec5490")
     RSA = a.project()
-    RSATickets = RSA.issues()
+  
+    prioritycount = RSA.issues(status = 1 )
 
-    c = RSATickets[0].getComments()
-    print (c[0].commenter)
-
-    print ("Number of tickets found " + str(len(RSATickets)))
-
-    failedresponse = []
-    
-    for kpi in RSATickets:
-
-        kpi_created = dateutil.parser.parse(kpi.created_at)
-        tz = kpi_created.tzinfo
-
-        if kpi_created.year == form.year and kpi_created.month == form.month:
-            print(str(kpi.number) + ' included in this month')
-
-            failedresponse = []
-
-            if kpi.priority == "Critical": 
-                form.critical = form.critical + 1
-                if exceedsResponse(kpi,P1):
-                    print(str(kpi.number)+' Exceeds response time')
-                    failedresponse.append('P1 : '+str(kpi.number))
-            elif kpi.priority == "High":
-                form.high = form.high + 1
-                if exceedsResponse(kpi,P2):
-                    print(str(kpi.number)+' Exceeds response time')
-                    failedresponse.append('P2 : '+str(kpi.number))                
-            elif kpi.priority == "Normal": 
-                form.normal = form.normal + 1                
-                if exceedsResponse(kpi,P3):
-                    print(str(kpi.number)+' Exceeds response time')  
-                    failedresponse.append('P3 : '+str(kpi.number))                                  
-
-            elif kpi.priority == "Low":
-                form.low = form.low + 1                
-                if exceedsResponse(kpi,P4):
-                    print(str(kpi.number)+' Exceeds response time') 
-                    failedresponse.append('P4 : '+str(kpi.number))                                    
-            elif kpi.priority == "Trivial":                
-                form.trivial = form.trivial + 1
-            else: 
-                print('Unexpected Priority found : '+ kpi.priority)
-
-            form.failedresponse = failedresponse
-
-            if kpi.category_name == "Service Request":
-                form.service_requests = form.service_requests + 1
-
-            if kpi.subject[1:17].lower == "application error":
-                form.system_logs = form.system_logs + 1
-
-            if kpi.subject[1:5].lower == "dvcsd":
-                form.dvcsd_contacts = form.dvcsd_contacts + 1
-
-        if dateutil.parser.parse(kpi.created_at) + datetime.timedelta(days=10) >= datetime.datetime.now(tz):
-            form.tickets_less_than_ten_days = form.tickets_less_than_ten_days + 1
-
-        if dateutil.parser.parse(kpi.created_at) + datetime.timedelta(days=60) <= datetime.datetime.now(tz):
-            form.tickets_more_than_sixty = form.tickets_more_than_sixty + 1 
-
-        if kpi.status == "Open":
-            form.open = form.open +1
-        elif kpi.status == "Reopened":
-            form.reopened = form.reopened + 1
-        elif kpi.status == "Follow Up":
-            form.followup = form.followup + 1
-        elif kpi.status == "Resolved":
-            form.resolved = form.resolved + 1
-        elif kpi.status == "Closed":
-            form.closed = form.closed + 1
-        else: 
-            print('Unexpected status found : '+ kpi.status)  
-
-        form.total = form.open + form.reopened + form.followup + form.resolved + form.closed
-
-    print("New this month:")
-    print("Critical : " + str(form.critical))
-    print("High : " + str(form.high))
-    print("Normal : " + str(form.normal))
-    print("Low : " + str(form.low))
-    print("Trivial : " + str(form.trivial))
-
-    return form
+    return prioritycount
