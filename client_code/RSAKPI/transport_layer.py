@@ -20,7 +20,7 @@ class KPITRANS():
   normal = 0
   low = 0
   trivial = 0
-
+  #Dict
   failedresponse = []
   
   service_requests = 0
