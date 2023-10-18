@@ -123,9 +123,8 @@ class Project(object):
         print("Got Status Count of " +str(count)+ " from "+self.api_issues_url+'?s='+str(status)+'&srt=updated&per_page=1')        
         return count
 
-    def issuesKPI(self,year: int,month: int, priority: int, volume: int ) -> int:
+    def issuesKPI(self,year: int,month: int, priority: int, volume: int ) -> []:
         """Gets all the issues for a given project, month/year, priority"""
-        issues = []
 
         # Sort by updated to get most recent activity - added per_page = 10 for debug
         first_page = self.api_issues_url + '?p='+str(priority)+'&srt=updated&per_page='+str(volume)
@@ -139,23 +138,53 @@ class Project(object):
         # Set the number of pages - hoping for 1....
         number_of_pages = json_raw['total_pages']
         print("Num Pages: ",number_of_pages)
+
+        if priority == 1:
+            statusText = "Critical"
+            KPIInterval = datetime.timedelta(minutes=30)
+        elif priority == 2:
+            statusText = "High"
+            KPIInterval = datetime.timedelta(minutes=60)
+        elif priority == 3:
+            statusText = "Normal" 
+            KPIInterval = datetime.timedelta(hours=4)  
+        elif priority == 4:
+            statusText = "Low"
+            KPIInterval = datetime.timedelta(hours=24)    
+        elif priority == 5:
+            statusText = "Trivial"
+            KPIInterval = datetime.timedelta(days=180)                               
+        failedresponse = []
         for current_page in range(number_of_pages): 
             # Create a wrapper for each issue, add it to the list
             raw_issues = json_raw['issues']
             for raw_issue in raw_issues:
                 i = Issue(raw_issue, self._account)
-                i.getComments()
-                issues.append(i)
+                kpi_created = dateutil.parser.parse(i.created_at)
+                tz = kpi_created.tzinfo
 
-            # Make a request for the next page
+                if kpi_created.year == year and kpi_created.month == month:
+                    i.getComments()
+
+                    if i.priority == statusText: 
+                        count = count + 1
+                        if exceedsResponse(kpi,KPIInterval):
+                            print(str(kpi.number)+' Exceeds response time')
+                            failedresponse.append('P'+str(priority)+' : '+str(kpi.number))
+                    else:
+                        #Raise an exception? 
+                        print('Unexpected Priority found : '+ kpi.priority)
+                else:
+                    #should always exit here
+                    return  failedresponse                  
+
+            # Make a request for the next page - unlikely 
             if current_page < number_of_pages - 1:
                 # store the results
                 json_raw = self._account.request(next_page)
 
             # set the next page
             next_page = json_raw['next_page_url']
-
-        return issues
   
     def issues(self):
         """Gets all the issues for a given project"""
@@ -294,10 +323,10 @@ def GetRSASIFTER_status(status: int ) -> int:
   return count
 
 @anvil.server.callable
-def GetRSASIFTER_MonthKPI(year: int,month: int, priority: int, volume: int ) -> int:
+def GetRSASIFTER_MonthKPI(year: int,month: int, priority: int, volume: int ) -> []:
   a = Account("https://rsa.sifterapp.com/api/projects/23454", "8de196b4c23a45f62676e9c08aec5490")
   RSA = a.project()
 
-  count = RSA.issuesKPI(year,month,priority,volume)
+  return RSA.issuesKPI(year,month,priority,volume)
   
-  return count
+   

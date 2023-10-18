@@ -25,7 +25,14 @@ class RSAKPI(RSAKPITemplate):
 
     #Failed reposne section
     #self.failedresponse.items = result.failedresponse
-    
+    self.failedresponse.items = []
+    self.failedresponse.items.extend( anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 1, volume = self.critical ))
+    self.failedresponse.items.extend( anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 2, volume = self.high )) 
+    self.failedresponse.items.extend( anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 3, volume = self.normal ))   
+    self.failedresponse.items.extend( anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 4, volume = self.low ))   
+    if len(self.failedresponse.items) == 0:
+      self.failedresponse.items = ["No KPI Failures"]
+          
     self.open.text = anvil.server.call('GetRSASIFTER_status',status=137089)
     self.reopened.text = anvil.server.call('GetRSASIFTER_status',status=137090)
     self.followup.text = anvil.server.call('GetRSASIFTER_status',status=177215)
