@@ -192,16 +192,12 @@ class Account(object):
 
     def project(self):
         """Gets the project from RSA sifter account"""
-
         json_raw = self.request(self.url)
         print(json_raw)
         raw_project = json_raw['project']
         proj = Project(raw_project, self)
-
-
         return proj
     
-
 def exceedsResponse(iss, priority):
     rational = 'MarkKennedy,AdrianWilliamson,RoyHann,WojtekRappak,PatJennings'
 
@@ -243,7 +239,7 @@ def GetRSASIFTER(form: transport_layer.KPITRANS) -> transport_layer.KPITRANS:
     c = RSATickets[0].getComments()
     print (c[0].commenter)
 
-    print (len(RSATickets))
+    print ("Number of tickets found " + str(len(RSATickets)))
 
     failedresponse = []
     
