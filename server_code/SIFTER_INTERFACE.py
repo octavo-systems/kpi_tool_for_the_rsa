@@ -290,26 +290,26 @@ def GetRSASIFTER(form: transport_layer.KPITRANS) -> transport_layer.KPITRANS:
             if kpi.subject[1:5].lower == "dvcsd":
                 form.dvcsd_contacts = form.dvcsd_contacts + 1
 
-            if dateutil.parser.parse(kpi.created_at) + datetime.timedelta(days=10) >= datetime.datetime.now(tz):
-                form.tickets_less_than_ten_days = form.tickets_less_than_ten_days + 1
+        if dateutil.parser.parse(kpi.created_at) + datetime.timedelta(days=10) >= datetime.datetime.now(tz):
+            form.tickets_less_than_ten_days = form.tickets_less_than_ten_days + 1
 
-            if dateutil.parser.parse(kpi.created_at) + datetime.timedelta(days=60) <= datetime.datetime.now(tz):
-                form.tickets_more_than_sixty = form.tickets_more_than_sixty + 1 
+        if dateutil.parser.parse(kpi.created_at) + datetime.timedelta(days=60) <= datetime.datetime.now(tz):
+            form.tickets_more_than_sixty = form.tickets_more_than_sixty + 1 
 
-            if kpi.status == "Open":
-                form.open = form.open +1
-            elif kpi.status == "Reopened":
-                form.reopened = form.reopened + 1
-            elif kpi.status == "Follow Up":
-                form.followup = form.followup + 1
-            elif kpi.status == "Resolved":
-                form.resolved = form.resolved + 1
-            elif kpi.status == "Closed":
-                form.closed = form.closed + 1
-            else: 
-                print('Unexpected status found : '+ kpi.status)  
+        if kpi.status == "Open":
+            form.open = form.open +1
+        elif kpi.status == "Reopened":
+            form.reopened = form.reopened + 1
+        elif kpi.status == "Follow Up":
+            form.followup = form.followup + 1
+        elif kpi.status == "Resolved":
+            form.resolved = form.resolved + 1
+        elif kpi.status == "Closed":
+            form.closed = form.closed + 1
+        else: 
+            print('Unexpected status found : '+ kpi.status)  
 
-            form.total = form.open + form.reopened + form.followup + form.resolved + form.closed
+        form.total = form.open + form.reopened + form.followup + form.resolved + form.closed
 
     print("New this month:")
     print("Critical : " + str(form.critical))
