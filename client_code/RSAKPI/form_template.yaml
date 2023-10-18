@@ -268,7 +268,7 @@ components:
     layout_properties: {grid_position: 'GTMNUB,PXEXFT PBNJUF,LMEMIL'}
   - type: TextBox
     properties: {}
-    name: totalsifters
+    name: total
     layout_properties: {grid_position: 'GTMNUB,PXEXFT PFRZOK,DZPSTM'}
 - type: Label
   properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,

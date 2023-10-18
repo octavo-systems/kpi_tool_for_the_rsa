@@ -5,7 +5,9 @@ import requests
 #import anvil.http
 import json
 import datetime
-import dateutil.parser 
+import dateutil.parser
+import sys
+import platform
 
 
 class Category(object):
@@ -222,7 +224,8 @@ def exceedsResponse(iss, priority):
 @anvil.server.callable
 def GetRSASIFTER(form: transport_layer.KPITRANS) -> transport_layer.KPITRANS:
 
-    #print('Server Check str  = ' + check)
+    print("Python Server Version = " + sys.version)
+  
     #print('Server Year = ' + str(form.year))
     #form.critical = 42
     #print('Server critical = ' + str(form.critical))  

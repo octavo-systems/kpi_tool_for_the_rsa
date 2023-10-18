@@ -18,33 +18,35 @@ class RSAKPI(RSAKPITemplate):
     """This method is called when the sifter button is clicked"""
     # Passing self give a serialisation error
     # As with OpenROAD JSON does not support by reference parameters
-    CurFrame = transport_layer.KPITRANS()
-    CurFrame.month = self.month.selected_value
-    CurFrame.year = int(self.year.selected_value)
+    CurForm = transport_layer.KPITRANS()
+    CurForm.month = self.month.selected_value
+    CurForm.year = int(self.year.selected_value)
 
-    print ('Client year '+str(CurFrame.year) )
-    print ('Client month '+str(CurFrame.month) )
+    print ('Client year '+str(CurForm.year) )
+    print ('Client month '+str(CurForm.month) )
     
-    result = anvil.server.call('GetRSASIFTER', form = CurFrame)
+    result = anvil.server.call('GetRSASIFTER', form = CurForm)
 
+    print ('CurForm year '+str(CurForm.year) )
+    print('CurForm critical '+str(CurForm.critical))    
     print ('Client year '+str(result.year) )
     print('Client critical '+str(result.critical))
 
     self.critical.text = result.critical
     self.high.text = result.high
     self.normal.text = result.normal
-    self.low.text = reult.low
-    self.trivial = result.trivial
+    self.low.text = result.low
+    self.trivial.text  = result.trivial
 
     #Failed reposne section
-    self.failedresponse = result.failedresponse
+    self.failedresponse.items = result.failedresponse
     
-    self.open = result.open
-    self.reopened = result.reopened
-    self.followup = result.followup
-    self.resolved = result.resolved
-    self.closed = result.closed
-    self.total = result.total
+    self.open.text = result.open
+    self.reopened.text = result.reopened
+    self.followup.text = result.followup
+    self.resolved.text = result.resolved
+    self.closed.text = result.closed
+    self.total.text = result.total
 
   def save_btn_click(self, **event_args):
     """This method is called when the save button is clicked"""
