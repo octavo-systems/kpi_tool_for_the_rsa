@@ -3,9 +3,9 @@ services:
   client_config: {}
   server_config: {}
 startup: {type: form, module: RSAKPI}
-package_name: KPI_Tool_for_the_RSA
+package_name: RSAKPI_Optimisation
 allow_embedding: false
-name: KPI Tool for the RSA
+name: RSAKPI Optimisation
 runtime_options:
   version: 2
   client_version: '3'
