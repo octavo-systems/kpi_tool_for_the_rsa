@@ -1,6 +1,6 @@
 from ._anvil_designer import RSAKPITemplate
 import anvil.server
-from . import transport_layer
+
 
 class RSAKPI(RSAKPITemplate):
   def __init__(self, **properties):
@@ -16,37 +16,22 @@ class RSAKPI(RSAKPITemplate):
 
   def sifter_btn_click(self, **event_args):
     """This method is called when the sifter button is clicked"""
-    # Passing self give a serialisation error
-    # As with OpenROAD JSON does not support by reference parameters
-    CurForm = transport_layer.KPITRANS()
-    CurForm.month = self.month.selected_value
-    CurForm.year = int(self.year.selected_value)
-
-    print ('Client year '+str(CurForm.year) )
-    print ('Client month '+str(CurForm.month) )
     
-    result = anvil.server.call('GetRSASIFTER', form = CurForm)
-
-    print ('CurForm year '+str(CurForm.year) )
-    print('CurForm critical '+str(CurForm.critical))    
-    print ('Client year '+str(result.year) )
-    print('Client critical '+str(result.critical))
-
-    self.critical.text = result.critical
-    self.high.text = result.high
-    self.normal.text = result.normal
-    self.low.text = result.low
-    self.trivial.text  = result.trivial
+    self.critical.text = anvil.server.call('GetRSASIFTER_priority',priority=1)
+    self.high.text = anvil.server.call('GetRSASIFTER_priority',priority=2)
+    self.normal.text =anvil.server.call('GetRSASIFTER_priority',priority=3)
+    self.low.text =anvil.server.call('GetRSASIFTER_priority',priority=4)
+    self.trivial.text  = anvil.server.call('GetRSASIFTER_priority',priority=5)
 
     #Failed reposne section
-    self.failedresponse.items = result.failedresponse
+    #self.failedresponse.items = result.failedresponse
     
-    self.open.text = result.open
-    self.reopened.text = result.reopened
-    self.followup.text = result.followup
-    self.resolved.text = result.resolved
-    self.closed.text = result.closed
-    self.total.text = result.total
+    self.open.text = anvil.server.call('GetRSASIFTER_status',status=137089)
+    self.reopened.text = anvil.server.call('GetRSASIFTER_status',status=137090)
+    self.followup.text = anvil.server.call('GetRSASIFTER_status',status=177215)
+    self.resolved.text = anvil.server.call('GetRSASIFTER_status',status=137091)
+    self.closed.text = anvil.server.call('GetRSASIFTER_status',status=137092)
+    self.total.text = self.open.text +self.reopened.text+self.followup.text+self.resolved.text+self.closed.text
 
   def save_btn_click(self, **event_args):
     """This method is called when the save button is clicked"""

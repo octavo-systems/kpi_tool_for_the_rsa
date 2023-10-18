@@ -1,5 +1,4 @@
 from anvil import *
-from .RSAKPI import transport_layer
 import anvil.server
 import requests
 #import anvil.http
@@ -99,6 +98,65 @@ class Project(object):
         self.name = project['name']
         self.primary_company_name = project['primary_company_name']
 
+    def issuesPriority(self, priority: int) -> int:
+        """Gets count of the issues for a given priority"""
+
+        # Sort by updated to get most recent activity - added per_page = 1 reduce traffic
+        first_page = self.api_issues_url + '?p='+str(priority)+'&srt=updated&per_page=1'
+        # Get page one
+        json_raw = self._account.request(first_page)
+        # Get the headline count
+        count = json_raw['results_count']
+        print("Got Priority Count of " +str(count)+ " from "+self.api_issues_url+ '?p='+str(priority)+'&srt=updated&per_page=1')              
+        return count
+
+    def issuesStatus(self, status: int) -> int:
+        """Gets count of the issues for a given status"""
+
+        # Sort by updated to get most recent activity - added per_page = 1 reduce traffic
+        # https://rsa.sifterapp.com/projects/23454/issues?s=137089&srt=updated&d=d is for Open
+        first_page = self.api_issues_url + '?s='+str(status)+'&srt=updated&per_page=1' 
+        # Get page one
+        json_raw = self._account.request(first_page)
+        # Get the headline count
+        count = json_raw['results_count']
+        print("Got Status Count of " +str(count)+ " from "+self.api_issues_url+'?s='+str(status)+'&srt=updated&per_page=1')        
+        return count
+
+    def issuesKPI(self,year: int,month: int, priority: int, volume: int ) -> int:
+        """Gets all the issues for a given project, month/year, priority"""
+        issues = []
+
+        # Sort by updated to get most recent activity - added per_page = 10 for debug
+        first_page = self.api_issues_url + '?p='+str(priority)+'&srt=updated&per_page='+str(volume)
+
+        # Get page one
+        json_raw = self._account.request(first_page)
+
+        # Set the next page - should not be needed....
+        next_page = json_raw['next_page_url']
+
+        # Set the number of pages - hoping for 1....
+        number_of_pages = json_raw['total_pages']
+        print("Num Pages: ",number_of_pages)
+        for current_page in range(number_of_pages): 
+            # Create a wrapper for each issue, add it to the list
+            raw_issues = json_raw['issues']
+            for raw_issue in raw_issues:
+                i = Issue(raw_issue, self._account)
+                i.getComments()
+                issues.append(i)
+
+            # Make a request for the next page
+            if current_page < number_of_pages - 1:
+                # store the results
+                json_raw = self._account.request(next_page)
+
+            # set the next page
+            next_page = json_raw['next_page_url']
+
+        return issues
+  
     def issues(self):
         """Gets all the issues for a given project"""
         issues = []
@@ -193,9 +251,9 @@ class Account(object):
     def project(self):
         """Gets the project from RSA sifter account"""
         json_raw = self.request(self.url)
-        print(json_raw)
         raw_project = json_raw['project']
         proj = Project(raw_project, self)
+        print("Got Project from "+self.url)      
         return proj
     
 def exceedsResponse(iss, priority):
@@ -218,13 +276,28 @@ def exceedsResponse(iss, priority):
 
 
 @anvil.server.callable
-def GetRSASIFTER(priority: int ) -> int:
+def GetRSASIFTER_priority(priority: int ) -> int:
+  # I wonder if I get the same server, in which case I guess I should check for a SIFTER session in play?
+  a = Account("https://rsa.sifterapp.com/api/projects/23454", "8de196b4c23a45f62676e9c08aec5490")
+  RSA = a.project()
 
-    print("Python Server Version = " + sys.version)
-  
-    a = Account("https://rsa.sifterapp.com/api/projects/23454", "8de196b4c23a45f62676e9c08aec5490")
-    RSA = a.project()
-  
-    prioritycount = RSA.issues(status = 1 )
+  count = RSA.issuesPriority(priority)
+  return count
 
-    return prioritycount
+@anvil.server.callable
+def GetRSASIFTER_status(status: int ) -> int:
+  
+  a = Account("https://rsa.sifterapp.com/api/projects/23454", "8de196b4c23a45f62676e9c08aec5490")
+  RSA = a.project()
+
+  count = RSA.issuesStatus(status)
+  return count
+
+@anvil.server.callable
+def GetRSASIFTER_MonthKPI(year: int,month: int, priority: int, volume: int ) -> int:
+  a = Account("https://rsa.sifterapp.com/api/projects/23454", "8de196b4c23a45f62676e9c08aec5490")
+  RSA = a.project()
+
+  count = RSA.issuesKPI(year,month,priority,volume)
+  
+  return count
