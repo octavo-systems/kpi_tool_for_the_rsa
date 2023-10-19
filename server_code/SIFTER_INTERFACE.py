@@ -123,7 +123,7 @@ class Project(object):
         print("Got Status Count of " +str(count)+ " from "+self.api_issues_url+'?s='+str(status)+'&srt=created&per_page=1')        
         return count
 
-    def issuesKPI(self,year: int,month: int,priority: int ) -> Transport.Cargo:
+    def issuesKPI(self,year: int, month: int,priority: int ) -> Transport.Cargo:
         """Gets all the issues for a given project, month/year, priority"""
         #Return Class
         form = Transport.Cargo()
@@ -170,10 +170,7 @@ class Project(object):
                 kpi_created = dateutil.parser.parse(i.created_at)
                 tz = kpi_created.tzinfo
                 print("Checking SIFTER : " +str(i.number))
-                print(kpi_created.year)
-                print(kpi_created.month)
-                print(year)
-                print(month)
+
                 if kpi_created.year == year and kpi_created.month == month:
                     i.getComments()
                     if i.priority == statusText: 
