@@ -6,7 +6,6 @@ import json
 import datetime
 import dateutil.parser
 import sys
-import platform
 
 
 class Category(object):
@@ -123,11 +122,14 @@ class Project(object):
         print("Got Status Count of " +str(count)+ " from "+self.api_issues_url+'?s='+str(status)+'&srt=updated&per_page=1')        
         return count
 
-    def issuesKPI(self,year: int,month: int, priority: int, volume: int, service_requests: int, system_logs: int, dvcsd_contacts: int, tickets_less_than_ten_days: int, tickets_more_than_sixty: int ) -> []:
+    def issuesKPI(self,year: int,month: int,priority: int, form: Cargo  ) -> Cargo:
         """Gets all the issues for a given project, month/year, priority"""
 
+        # Lets see how many there are in total and try and get those on 1 page normal might be an issue with aboput 1700 in Oct 2023
+        Totalvolume = self.issuesPriority(priority)
+      
         # Sort by updated to get most recent activity - added per_page = 10 for debug
-        first_page = self.api_issues_url + '?p='+str(priority)+'&srt=updated&per_page='+str(volume)
+        first_page = self.api_issues_url + '?p='+str(priority)+'&srt=updated&per_page='+str(Totalvolume)
 
         # Get page one
         json_raw = self._account.request(first_page)
@@ -167,7 +169,7 @@ class Project(object):
                     i.getComments()
 
                     if i.priority == statusText: 
-                        count = count + 1
+                        form.volume = form.volume + 1
                         if exceedsResponse(kpi,KPIInterval):
                             print(str(kpi.number)+' Exceeds response time')
                             failedresponse.append('P'+str(priority)+' : '+str(kpi.number))
@@ -176,23 +178,23 @@ class Project(object):
                         print('Unexpected Priority found : '+ kpi.priority)
                   
                     if i.category_name == "Service Request":
-                      service_requests = service_requests + 1
+                      form.service_requests = form.service_requests + 1
 
                     if i.subject[1:17].lower == "application error":
-                      system_logs = system_logs + 1
+                      form.system_logs = form.system_logs + 1
                       
                     if i.subject[1:5].lower == "dvcsd":
-                      dvcsd_contacts = dvcsd_contacts + 1
+                      form.dvcsd_contacts = form.dvcsd_contacts + 1
 
                     if kpi_created + datetime.timedelta(days=10) >= datetime.datetime.now(tz):
-                      tickets_less_than_ten_days = tickets_less_than_ten_days + 1
+                      form.tickets_less_than_ten_days = form.tickets_less_than_ten_days + 1
 
                     if kpi_created + datetime.timedelta(days=60) <= datetime.datetime.now(tz):
-                      tickets_more_than_sixty = tickets_more_than_sixty + 1 
+                      form.tickets_more_than_sixty = form.tickets_more_than_sixty + 1 
               
                 else:
                     #should always exit here
-                    return  failedresponse                  
+                    return form                  
 
             # Make a request for the next page - unlikely 
             if current_page < number_of_pages - 1:
@@ -319,16 +321,6 @@ def exceedsResponse(iss, priority):
                 else:
                     return False
 
-
-@anvil.server.callable
-def GetRSASIFTER_priority(priority: int ) -> int:
-  # I wonder if I get the same server, in which case I guess I should check for a SIFTER session in play?
-  a = Account("https://rsa.sifterapp.com/api/projects/23454", "8de196b4c23a45f62676e9c08aec5490")
-  RSA = a.project()
-
-  count = RSA.issuesPriority(priority)
-  return count
-
 @anvil.server.callable
 def GetRSASIFTER_status(status: int ) -> int:
   
@@ -339,10 +331,9 @@ def GetRSASIFTER_status(status: int ) -> int:
   return count
 
 @anvil.server.callable
-def GetRSASIFTER_MonthKPI(year: int,month: int, priority: int, volume: int, service_requests: int, system_logs: int, dvcsd_contacts: int, tickets_less_than_ten_days: int, tickets_more_than_sixty: int ) -> []:
+def GetRSASIFTER_MonthKPI(year: int,month: int, priority: int, form: Cargo ) -> Cargo:
   a = Account("https://rsa.sifterapp.com/api/projects/23454", "8de196b4c23a45f62676e9c08aec5490")
   RSA = a.project()
-
-  return RSA.issuesKPI(year,month,priority,volume,service_requests,system_logs,dvcsd_contacts,tickets_less_than_ten_days,tickets_more_than_sixty)
+  return RSA.issuesKPI(year,month,priority,form)
   
    

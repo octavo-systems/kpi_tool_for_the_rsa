@@ -1,5 +1,6 @@
 from ._anvil_designer import RSAKPITemplate
 import anvil.server
+from .Transport import Cargo
 
 
 class RSAKPI(RSAKPITemplate):
@@ -16,26 +17,35 @@ class RSAKPI(RSAKPITemplate):
 
   def sifter_btn_click(self, **event_args):
     """This method is called when the sifter button is clicked"""
+  
+    critical = Cargo()
+    high = Cargo()
+    mormal = Cargo()
+    low = Cargo()
+    trivial = Cargo()
     
-    self.critical.text = anvil.server.call('GetRSASIFTER_priority',priority=1)
-    self.high.text = anvil.server.call('GetRSASIFTER_priority',priority=2)
-    self.normal.text =anvil.server.call('GetRSASIFTER_priority',priority=3)
-    self.low.text =anvil.server.call('GetRSASIFTER_priority',priority=4)
-    self.trivial.text  = anvil.server.call('GetRSASIFTER_priority',priority=5)
-    self.total_incidents.text = self.critical.text+self.high.text +self.normal.text+self.low.text+self.trivial.text
+    critical = anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 1 )
+    self.critical.text = critical.volume
+    high = anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 2 ) 
+    self.high.text  = high.volume
+    normal = anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 3 )   
+    self.normal.text = normal.volume
+    low = anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 4 )   
+    self.low.test = low.volume
+    trivial = anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 4 )   
+    self.trivial.text = trivial.volume
 
-    #Failed response section
-    #self.failedresponse.items = result.failedresponse
+    self.total_incidents.text = critical.volume + high.volume+normal.volume+low.volume+trivial.volume
     self.failedresponse.items = []
-    #(self,year: int,month: int, priority: int, volume: int, service_requests: int, system_logs: int, dvcsd_contacts: int, tickets_less_than_ten_days: int, tickets_more_than_sixty: int )
-    self.failedresponse.items.extend( anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 1, volume = self.critical,service_requests=self.service_requests.text, system_logs=self.system_logs.text, dvcsd_contacts = self.dvcsd_contacts.text , tickets_less_than_ten_days= self.tickets_less_than_ten_days.text, tickets_more_than_sixty=self.tickets_more_than_sixty.text ))
-    self.failedresponse.items.extend( anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 2, volume = self.high,service_requests=self.service_requests.text, system_logs=self.system_logs.text, dvcsd_contacts = self.dvcsd_contacts.text , tickets_less_than_ten_days= self.tickets_less_than_ten_days.text, tickets_more_than_sixty=self.tickets_more_than_sixty.text )) 
-    self.failedresponse.items.extend( anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 3, volume = self.normal,service_requests=self.service_requests.text, system_logs=self.system_logs.text, dvcsd_contacts = self.dvcsd_contacts.text , tickets_less_than_ten_days= self.tickets_less_than_ten_days.text, tickets_more_than_sixty=self.tickets_more_than_sixty.text ))   
-    self.failedresponse.items.extend( anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 4, volume = self.low,service_requests=self.service_requests.text, system_logs=self.system_logs.text, dvcsd_contacts = self.dvcsd_contacts.text , tickets_less_than_ten_days= self.tickets_less_than_ten_days.text, tickets_more_than_sixty=self.tickets_more_than_sixty.text ))   
-    self.failedresponse.items.extend( anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 4, volume = self.trivial,service_requests=self.service_requests.text, system_logs=self.system_logs.text, dvcsd_contacts = self.dvcsd_contacts.text , tickets_less_than_ten_days= self.tickets_less_than_ten_days.text, tickets_more_than_sixty=self.tickets_more_than_sixty.text ))   
+    self.failedresponse.items.extend( critical.failedresponse )
+    self.failedresponse.items.extend( high.failedresponse )
+    self.failedresponse.items.extend( normal.failedresponse )
+    self.failedresponse.items.extend( low.failedresponse )    
+    self.failedresponse.items.extend( trivial.failedresponse )
+
     if len(self.failedresponse.items) == 0:
       self.failed_response_list.text =self.failed_response_list.text + " (None this month)"
-          
+    
     self.open.text = anvil.server.call('GetRSASIFTER_status',status=137089)
     self.reopened.text = anvil.server.call('GetRSASIFTER_status',status=137090)
     self.followup.text = anvil.server.call('GetRSASIFTER_status',status=177215)
