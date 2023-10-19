@@ -40,8 +40,9 @@ class RSAKPI(RSAKPITemplate):
     self.trivial.text = trivial.volume
     
     self.total_incidents.text = critical.volume + high.volume+normal.volume+low.volume+trivial.volume
+    self.dvcsd_contacts.text = critical.dvcsd_contacts + high.dvcsd_contacts+normal.dvcsd_contacts+low.dvcsd_contacts+trivial.dvcsd_contacts
+
     
-    self.failedresponse.items = []
     self.failedresponse.items.extend( critical.failedresponse )
     self.failedresponse.items.extend( high.failedresponse )
     self.failedresponse.items.extend( normal.failedresponse )
@@ -50,6 +51,11 @@ class RSAKPI(RSAKPITemplate):
 
     if len(self.failedresponse.items) == 0:
       self.failed_response_list.text =self.failed_response_list.text + " (None this month)"
+
+    if self.total_incidents.text != 0: 
+      self.percentage_incidents_in_sla.text = (1 - (len(self.failedresponse.items) / self.total_incidents.text)) * 100
+    else:
+      self.percentage_incidents_in_sla.text = 100      
     
     self.open.text = anvil.server.call('GetRSASIFTER_status',status=137089)
     self.reopened.text = anvil.server.call('GetRSASIFTER_status',status=137090)
@@ -57,11 +63,6 @@ class RSAKPI(RSAKPITemplate):
     self.resolved.text = anvil.server.call('GetRSASIFTER_status',status=137091)
     self.closed.text = anvil.server.call('GetRSASIFTER_status',status=137092)
     self.total.text = self.open.text +self.reopened.text+self.followup.text+self.resolved.text+self.closed.text
-
-    if self.total_incidents.text != 0: 
-      percentage_incidents_in_sla = (1 - (len(self.failedresponse.items) / self.total_incidents.text)) * 100
-    else:
-      percentage_incidents_in_sla = 100
 
   
   def save_btn_click(self, **event_args):

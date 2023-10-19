@@ -188,9 +188,11 @@ class Project(object):
                     if i.subject[0:17].lower() == "application error":
                       form.system_logs = form.system_logs + 1
 
+                    print(i.subject[0:5].lower() == "dvcsd")
+
                     if i.subject[0:5].lower() == "dvcsd":
                       form.dvcsd_contacts = form.dvcsd_contacts + 1
-
+                      print("dvcsd_contacts found in " +str(i.number))
                     if kpi_created + datetime.timedelta(days=10) >= datetime.datetime.now(tz):
                       form.tickets_less_than_ten_days = form.tickets_less_than_ten_days + 1
 
