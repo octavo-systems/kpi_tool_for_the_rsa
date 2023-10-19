@@ -10,7 +10,7 @@ class RSAKPI(RSAKPITemplate):
 
     # Any code you write here will run before the form opens.
     self.month.items = [("January", 1),("February",2),("March",3),("April",4),("May",5),("June",6),("July",7),("August",8),("September",9),("October",10),("November",11),("December",12)]
-
+    self.year.items = [("2023", 2023),("2024",2024),("2025",2025)]
   def exit_btn_click(self, **event_args):
     """This method is called when the button is clicked"""
     return

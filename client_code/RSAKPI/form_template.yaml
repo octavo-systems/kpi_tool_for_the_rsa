@@ -42,7 +42,7 @@ components:
       border: ''
       enabled: true
       foreground: ''
-      items: ['2023', '2024', '2025']
+      items: ['']
       visible: true
       font_size: null
       font: ''
