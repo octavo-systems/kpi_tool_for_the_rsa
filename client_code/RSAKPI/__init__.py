@@ -26,16 +26,21 @@ class RSAKPI(RSAKPITemplate):
     
     critical = anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 1 )
     self.critical.text = critical.volume
+    
     high = anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 2 ) 
     self.high.text  = high.volume
+    
     normal = anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 3 )   
     self.normal.text = normal.volume
+    
     low = anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 4 )   
     self.low.test = low.volume
-    trivial = anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 4 )   
+    
+    trivial = anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 5 )   
     self.trivial.text = trivial.volume
-
+    
     self.total_incidents.text = critical.volume + high.volume+normal.volume+low.volume+trivial.volume
+    
     self.failedresponse.items = []
     self.failedresponse.items.extend( critical.failedresponse )
     self.failedresponse.items.extend( high.failedresponse )
@@ -53,7 +58,10 @@ class RSAKPI(RSAKPITemplate):
     self.closed.text = anvil.server.call('GetRSASIFTER_status',status=137092)
     self.total.text = self.open.text +self.reopened.text+self.followup.text+self.resolved.text+self.closed.text
 
-    percentage_incidents_in_sla = (1 - (len(self.failedresponse.items) / self.total_incidents.text)) * 100
+    if self.total_incidents.text != 0: 
+      percentage_incidents_in_sla = (1 - (len(self.failedresponse.items) / self.total_incidents.text)) * 100
+    else:
+      percentage_incidents_in_sla = 100
 
   
   def save_btn_click(self, **event_args):

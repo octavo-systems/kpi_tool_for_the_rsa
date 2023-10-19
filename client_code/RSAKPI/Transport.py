@@ -17,3 +17,5 @@ class Cargo():
   tickets_more_than_sixty=0
   failedresponse = []
 
+  def __init__(self):
+    pass

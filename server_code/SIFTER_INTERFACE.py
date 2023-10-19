@@ -6,6 +6,7 @@ import json
 import datetime
 import dateutil.parser
 import sys
+from .RSAKPI import Transport
 
 
 class Category(object):
@@ -100,13 +101,13 @@ class Project(object):
     def issuesPriority(self, priority: int) -> int:
         """Gets count of the issues for a given priority"""
 
-        # Sort by updated to get most recent activity - added per_page = 1 reduce traffic
-        first_page = self.api_issues_url + '?p='+str(priority)+'&srt=updated&per_page=1'
+        # Sort by updated to get most recent activity - 
+        first_page = self.api_issues_url + '?p='+str(priority)+'&srt=updated&d=d'
         # Get page one
         json_raw = self._account.request(first_page)
         # Get the headline count
         count = json_raw['results_count']
-        print("Got Priority Count of " +str(count)+ " from "+self.api_issues_url+ '?p='+str(priority)+'&srt=updated&per_page=1')              
+        print("Got Priority Issue Count of " +str(count)+ " from "+self.api_issues_url+ '?p='+str(priority)+'&srt=updated&per_page=1')              
         return count
 
     def issuesStatus(self, status: int) -> int:
@@ -122,9 +123,10 @@ class Project(object):
         print("Got Status Count of " +str(count)+ " from "+self.api_issues_url+'?s='+str(status)+'&srt=updated&per_page=1')        
         return count
 
-    def issuesKPI(self,year: int,month: int,priority: int, form: Cargo  ) -> Cargo:
+    def issuesKPI(self,year: int,month: int,priority: int ) -> Transport.Cargo:
         """Gets all the issues for a given project, month/year, priority"""
-
+        #Return Class
+        form = Transport.Cargo()
         # Lets see how many there are in total and try and get those on 1 page normal might be an issue with aboput 1700 in Oct 2023
         Totalvolume = self.issuesPriority(priority)
       
@@ -139,7 +141,7 @@ class Project(object):
 
         # Set the number of pages - hoping for 1....
         number_of_pages = json_raw['total_pages']
-        print("Num Pages: ",number_of_pages)
+        print("Num Pages: " +str(number_of_pages))
 
         if priority == 1:
             statusText = "Critical"
@@ -155,19 +157,21 @@ class Project(object):
             KPIInterval = datetime.timedelta(hours=24)    
         elif priority == 5:
             statusText = "Trivial"
-            KPIInterval = datetime.timedelta(days=3650)                               
+            KPIInterval = datetime.timedelta(days=3650)        
+        print("Look for: "+ statusText)  
+      
         failedresponse = []
         for current_page in range(number_of_pages): 
+            print("Processing Page: "+ str(current_page)) 
             # Create a wrapper for each issue, add it to the list
             raw_issues = json_raw['issues']
             for raw_issue in raw_issues:
                 i = Issue(raw_issue, self._account)
                 kpi_created = dateutil.parser.parse(i.created_at)
                 tz = kpi_created.tzinfo
-
+                print("Checking SIFTER : " +str(i.number))
                 if kpi_created.year == year and kpi_created.month == month:
                     i.getComments()
-
                     if i.priority == statusText: 
                         form.volume = form.volume + 1
                         if exceedsResponse(kpi,KPIInterval):
@@ -323,17 +327,15 @@ def exceedsResponse(iss, priority):
 
 @anvil.server.callable
 def GetRSASIFTER_status(status: int ) -> int:
-  
   a = Account("https://rsa.sifterapp.com/api/projects/23454", "8de196b4c23a45f62676e9c08aec5490")
   RSA = a.project()
-
   count = RSA.issuesStatus(status)
   return count
 
 @anvil.server.callable
-def GetRSASIFTER_MonthKPI(year: int,month: int, priority: int, form: Cargo ) -> Cargo:
+def GetRSASIFTER_MonthKPI(year: int,month: int, priority: int ) -> Transport.Cargo:
   a = Account("https://rsa.sifterapp.com/api/projects/23454", "8de196b4c23a45f62676e9c08aec5490")
   RSA = a.project()
-  return RSA.issuesKPI(year,month,priority,form)
+  return RSA.issuesKPI(year,month,priority)
   
    
