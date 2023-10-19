@@ -107,20 +107,20 @@ class Project(object):
         json_raw = self._account.request(first_page)
         # Get the headline count
         count = json_raw['results_count']
-        print("Got Priority Issue Count of " +str(count)+ " from "+self.api_issues_url+ '?p='+str(priority)+'&srt=updated&per_page=1')              
+        print("Got Priority Issue Count of " +str(count)+ " from "+self.api_issues_url+ '?p='+str(priority)+'&srt=created&per_page=1')              
         return count
 
     def issuesStatus(self, status: int) -> int:
         """Gets count of the issues for a given status"""
 
-        # Sort by updated to get most recent activity - added per_page = 1 reduce traffic
-        # https://rsa.sifterapp.com/projects/23454/issues?s=137089&srt=updated&d=d is for Open
-        first_page = self.api_issues_url + '?s='+str(status)+'&srt=updated&per_page=1' 
+        # Sort by created to get most recent activity - added per_page = 1 reduce traffic
+        # https://rsa.sifterapp.com/projects/23454/issues?s=137089&srt=created&d=d is for Open
+        first_page = self.api_issues_url + '?s='+str(status)+'&srt=created&per_page=1' 
         # Get page one
         json_raw = self._account.request(first_page)
         # Get the headline count
         count = json_raw['results_count']
-        print("Got Status Count of " +str(count)+ " from "+self.api_issues_url+'?s='+str(status)+'&srt=updated&per_page=1')        
+        print("Got Status Count of " +str(count)+ " from "+self.api_issues_url+'?s='+str(status)+'&srt=created&per_page=1')        
         return count
 
     def issuesKPI(self,year: int,month: int,priority: int ) -> Transport.Cargo:
@@ -130,8 +130,8 @@ class Project(object):
         # Lets see how many there are in total and try and get those on 1 page normal might be an issue with aboput 1700 in Oct 2023
         Totalvolume = self.issuesPriority(priority)
       
-        # Sort by updated to get most recent activity - added per_page = 10 for debug
-        first_page = self.api_issues_url + '?p='+str(priority)+'&srt=updated&per_page='+str(Totalvolume)
+        # Sort by created to get most recent activity - added per_page = 10 for debug
+        first_page = self.api_issues_url + '?p='+str(priority)+'&srt=created&per_page='+str(Totalvolume)
 
         # Get page one
         json_raw = self._account.request(first_page)
@@ -160,7 +160,7 @@ class Project(object):
             KPIInterval = datetime.timedelta(days=3650)        
         print("Look for: "+ statusText)  
       
-        failedresponse = []
+        form.failedresponse =[]
         for current_page in range(number_of_pages): 
             print("Processing Page: "+ str(current_page)) 
             # Create a wrapper for each issue, add it to the list
@@ -170,24 +170,28 @@ class Project(object):
                 kpi_created = dateutil.parser.parse(i.created_at)
                 tz = kpi_created.tzinfo
                 print("Checking SIFTER : " +str(i.number))
+                print(kpi_created.year)
+                print(kpi_created.month)
+                print(year)
+                print(month)
                 if kpi_created.year == year and kpi_created.month == month:
                     i.getComments()
                     if i.priority == statusText: 
                         form.volume = form.volume + 1
-                        if exceedsResponse(kpi,KPIInterval):
-                            print(str(kpi.number)+' Exceeds response time')
-                            failedresponse.append('P'+str(priority)+' : '+str(kpi.number))
+                        if exceedsResponse(i,KPIInterval):
+                            print(str(i.number)+' Exceeds response time')
+                            form.failedresponse.append('P'+str(priority)+' : '+str(i.number))
                     else:
                         #Raise an exception? 
-                        print('Unexpected Priority found : '+ kpi.priority)
+                        print('Unexpected Priority found : '+ i.priority)
                   
                     if i.category_name == "Service Request":
                       form.service_requests = form.service_requests + 1
 
-                    if i.subject[1:17].lower == "application error":
+                    if i.subject[0:17].lower() == "application error":
                       form.system_logs = form.system_logs + 1
-                      
-                    if i.subject[1:5].lower == "dvcsd":
+
+                    if i.subject[0:5].lower() == "dvcsd":
                       form.dvcsd_contacts = form.dvcsd_contacts + 1
 
                     if kpi_created + datetime.timedelta(days=10) >= datetime.datetime.now(tz):
@@ -198,6 +202,7 @@ class Project(object):
               
                 else:
                     #should always exit here
+                    print("Discarding out of month SIFTER : " +str(i.number))
                     return form                  
 
             # Make a request for the next page - unlikely 
@@ -207,13 +212,14 @@ class Project(object):
 
             # set the next page
             next_page = json_raw['next_page_url']
+
   
     def issues(self):
         """Gets all the issues for a given project"""
         issues = []
 
-        # Sort by updated to get most recent activity - added per_page = 10 for debug
-        first_page = self.api_issues_url + '?srt=updated&per_page=40'
+        # Sort by created to get most recent activity - added per_page = 10 for debug
+        first_page = self.api_issues_url + '?srt=created&per_page=40'
 
         # Get page one
         json_raw = self._account.request(first_page)

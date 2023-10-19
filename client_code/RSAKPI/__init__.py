@@ -34,7 +34,7 @@ class RSAKPI(RSAKPITemplate):
     self.normal.text = normal.volume
     
     low = anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 4 )   
-    self.low.test = low.volume
+    self.low.text = low.volume
     
     trivial = anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 5 )   
     self.trivial.text = trivial.volume
