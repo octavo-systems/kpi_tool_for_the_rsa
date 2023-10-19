@@ -339,10 +339,10 @@ def GetRSASIFTER_status(status: int ) -> int:
   return count
 
 @anvil.server.callable
-def GetRSASIFTER_MonthKPI(self,year: int,month: int, priority: int, volume: int, service_requests: int, system_logs: int, dvcsd_contacts: int, tickets_less_than_ten_days: int, tickets_more_than_sixty: int ) -> []:
+def GetRSASIFTER_MonthKPI(year: int,month: int, priority: int, volume: int, service_requests: int, system_logs: int, dvcsd_contacts: int, tickets_less_than_ten_days: int, tickets_more_than_sixty: int ) -> []:
   a = Account("https://rsa.sifterapp.com/api/projects/23454", "8de196b4c23a45f62676e9c08aec5490")
   RSA = a.project()
 
-  return RSA.issuesKPI(year,month,priority,volume)
+  return RSA.issuesKPI(year,month,priority,volume,service_requests,system_logs,dvcsd_contacts,tickets_less_than_ten_days,tickets_more_than_sixty)
   
    

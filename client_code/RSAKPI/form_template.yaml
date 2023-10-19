@@ -168,10 +168,24 @@ components:
     layout_properties: {grid_position: 'VWCQXY,UVOSIO'}
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: Total, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_13
+    layout_properties: {grid_position: 'QTIUXB,HLTKHN'}
+  - type: TextBox
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: total_incidents
+    layout_properties: {grid_position: 'QTIUXB,TAWZMK'}
+  - type: Label
+    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
       visible: true, text: Failed Response SLA, font_size: null, font: '', spacing_above: small,
       icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
       underline: false, icon: ''}
-    name: label_7
+    name: failed_response_list
     layout_properties: {grid_position: 'LKCVPG,ULEWKF'}
   - type: DataGrid
     properties:
@@ -297,8 +311,8 @@ components:
   layout_properties: {slot: default}
 - type: TextBox
   properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-    border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-    font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
+    border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
+    font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
     background: '', bold: false, underline: false}
   name: percentage_incidents_in_sla
   layout_properties: {slot: default}
@@ -311,7 +325,7 @@ components:
   layout_properties: {slot: default}
 - type: TextBox
   properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-    border: '', enabled: true, foreground: '', visible: true, text: 'Not Applicable
+    border: '', enabled: false, foreground: '', visible: true, text: 'Not Applicable
       : All incidents raised through SIFTER', font_size: null, font: '', spacing_above: small,
     type: text, spacing_below: small, italic: false, background: '', bold: false,
     underline: false}
@@ -325,7 +339,10 @@ components:
   name: label_9_copy_2
   layout_properties: {slot: default}
 - type: TextBox
-  properties: {}
+  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+    border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
+    font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+    background: '', bold: false, underline: false}
   name: tickets_less_than_ten_days
   layout_properties: {slot: default}
 - type: Label
@@ -337,7 +354,7 @@ components:
   layout_properties: {slot: default}
 - type: TextBox
   properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-    border: '', enabled: true, foreground: '', visible: true, text: Not Applicable,
+    border: '', enabled: false, foreground: '', visible: true, text: Not Applicable,
     font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
     italic: false, background: '', bold: false, underline: false}
   name: text_box_1_copy_3
@@ -350,7 +367,10 @@ components:
   name: label_9_copy_4
   layout_properties: {slot: default}
 - type: TextBox
-  properties: {}
+  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+    border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
+    font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+    background: '', bold: false, underline: false}
   name: service_requests
   layout_properties: {slot: default}
   event_bindings: {}
@@ -363,7 +383,7 @@ components:
   layout_properties: {slot: default}
 - type: TextBox
   properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-    border: '', enabled: true, foreground: '', visible: true, text: 'Not Appplicable
+    border: '', enabled: false, foreground: '', visible: true, text: 'Not Appplicable
       : There is no SLA for service requests', font_size: null, font: '', spacing_above: small,
     type: text, spacing_below: small, italic: false, background: '', bold: false,
     underline: false}
@@ -378,11 +398,12 @@ components:
   layout_properties: {slot: default}
 - type: TextBox
   properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-    border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-    font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
+    border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
+    font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
     background: '', bold: false, underline: false}
   name: tickets_more_than_sixty
   layout_properties: {slot: default}
+  event_bindings: {}
 - type: Label
   properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
     text: 9. Number of issues identified from system logs in month, font_size: null,
@@ -391,7 +412,10 @@ components:
   name: label_9_copy_7
   layout_properties: {slot: default}
 - type: TextBox
-  properties: {}
+  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+    border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
+    font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+    background: '', bold: false, underline: false}
   name: system_logs
   layout_properties: {slot: default}
 - type: Label
@@ -403,8 +427,8 @@ components:
   layout_properties: {slot: default}
 - type: TextBox
   properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-    border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-    font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
+    border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
+    font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
     background: '', bold: false, underline: false}
   name: dvcsd_contacts
   layout_properties: {slot: default}
@@ -440,7 +464,10 @@ components:
   name: label_11
   layout_properties: {slot: default}
 - type: TextBox
-  properties: {}
+  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+    border: '', enabled: false, foreground: '', visible: true, text: N/A Rational provide continuous hyper care,
+    font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+    italic: false, background: '', bold: false, underline: false}
   name: major_release
   layout_properties: {slot: default}
 - type: Label
@@ -454,6 +481,9 @@ components:
   name: label_12
   layout_properties: {slot: default}
 - type: TextBox
-  properties: {}
+  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+    border: '', enabled: false, foreground: '', visible: true, text: N/A Rational provide continuous hyper care,
+    font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+    italic: false, background: '', bold: false, underline: false}
   name: minor_release
   layout_properties: {slot: default}
