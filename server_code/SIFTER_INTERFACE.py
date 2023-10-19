@@ -123,7 +123,7 @@ class Project(object):
         print("Got Status Count of " +str(count)+ " from "+self.api_issues_url+'?s='+str(status)+'&srt=updated&per_page=1')        
         return count
 
-    def issuesKPI(self,year: int,month: int, priority: int, volume: int ) -> []:
+    def issuesKPI(self,year: int,month: int, priority: int, volume: int, service_requests: int, system_logs: int, dvcsd_contacts: int, tickets_less_than_ten_days: int, tickets_more_than_sixty: int ) -> []:
         """Gets all the issues for a given project, month/year, priority"""
 
         # Sort by updated to get most recent activity - added per_page = 10 for debug
@@ -153,7 +153,7 @@ class Project(object):
             KPIInterval = datetime.timedelta(hours=24)    
         elif priority == 5:
             statusText = "Trivial"
-            KPIInterval = datetime.timedelta(days=180)                               
+            KPIInterval = datetime.timedelta(days=3650)                               
         failedresponse = []
         for current_page in range(number_of_pages): 
             # Create a wrapper for each issue, add it to the list
@@ -174,6 +174,22 @@ class Project(object):
                     else:
                         #Raise an exception? 
                         print('Unexpected Priority found : '+ kpi.priority)
+                  
+                    if i.category_name == "Service Request":
+                      service_requests = service_requests + 1
+
+                    if i.subject[1:17].lower == "application error":
+                      system_logs = system_logs + 1
+                      
+                    if i.subject[1:5].lower == "dvcsd":
+                      dvcsd_contacts = dvcsd_contacts + 1
+
+                    if kpi_created + datetime.timedelta(days=10) >= datetime.datetime.now(tz):
+                      tickets_less_than_ten_days = tickets_less_than_ten_days + 1
+
+                    if kpi_created + datetime.timedelta(days=60) <= datetime.datetime.now(tz):
+                      tickets_more_than_sixty = tickets_more_than_sixty + 1 
+              
                 else:
                     #should always exit here
                     return  failedresponse                  
@@ -323,7 +339,7 @@ def GetRSASIFTER_status(status: int ) -> int:
   return count
 
 @anvil.server.callable
-def GetRSASIFTER_MonthKPI(year: int,month: int, priority: int, volume: int ) -> []:
+def GetRSASIFTER_MonthKPI(self,year: int,month: int, priority: int, volume: int, service_requests: int, system_logs: int, dvcsd_contacts: int, tickets_less_than_ten_days: int, tickets_more_than_sixty: int ) -> []:
   a = Account("https://rsa.sifterapp.com/api/projects/23454", "8de196b4c23a45f62676e9c08aec5490")
   RSA = a.project()
 

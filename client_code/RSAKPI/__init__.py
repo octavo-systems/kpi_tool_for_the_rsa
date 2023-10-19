@@ -23,13 +23,15 @@ class RSAKPI(RSAKPITemplate):
     self.low.text =anvil.server.call('GetRSASIFTER_priority',priority=4)
     self.trivial.text  = anvil.server.call('GetRSASIFTER_priority',priority=5)
 
-    #Failed reposne section
+    #Failed response section
     #self.failedresponse.items = result.failedresponse
     self.failedresponse.items = []
-    self.failedresponse.items.extend( anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 1, volume = self.critical ))
+    #(self,year: int,month: int, priority: int, volume: int, service_requests: int, system_logs: int, dvcsd_contacts: int, tickets_less_than_ten_days: int, tickets_more_than_sixty: int )
+    self.failedresponse.items.extend( anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 1, volume = self.critical,system_logs=, dvcsd_contacts: int, tickets_less_than_ten_days: int, tickets_more_than_sixty: int ))
     self.failedresponse.items.extend( anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 2, volume = self.high )) 
     self.failedresponse.items.extend( anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 3, volume = self.normal ))   
     self.failedresponse.items.extend( anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 4, volume = self.low ))   
+    self.failedresponse.items.extend( anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 4, volume = self.trivial ))   
     if len(self.failedresponse.items) == 0:
       self.failedresponse.items = ["No KPI Failures"]
           
