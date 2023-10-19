@@ -15,7 +15,7 @@ class Cargo():
   dvcsd_contacts=0
   tickets_less_than_ten_days=0
   tickets_more_than_sixty=0
-  failedresponse = []
+  failedresponse = {}
 
   def __init__(self):
     pass
