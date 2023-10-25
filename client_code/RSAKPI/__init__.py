@@ -42,9 +42,7 @@ class RSAKPI(RSAKPITemplate):
     self.total_incidents.text = critical.volume + high.volume+normal.volume+low.volume+trivial.volume
     self.dvcsd_contacts.text = critical.dvcsd_contacts + high.dvcsd_contacts+normal.dvcsd_contacts+low.dvcsd_contacts+trivial.dvcsd_contacts
 
-    collection = critical.failedresponse+high.failedresponse+normal.failedresponse+low.failedresponse+trivial.failedresponse
-
-    self.sifterrows.items = collection
+    self.sifterrows.items = critical.failedresponse+high.failedresponse+normal.failedresponse+low.failedresponse+trivial.failedresponse
 
     if len(self.failedresponse.items) == 0:
       self.failed_response_list.text =self.failed_response_list.text + " (None this month)"
