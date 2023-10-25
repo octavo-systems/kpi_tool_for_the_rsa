@@ -208,7 +208,7 @@ components:
     components:
     - type: RepeatingPanel
       properties: {spacing_above: none, spacing_below: none, item_template: RSAKPI.RowTemplate1}
-      name: repeating_panel_1
+      name: sifterrows
       layout_properties: {}
 - type: ColumnPanel
   properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
