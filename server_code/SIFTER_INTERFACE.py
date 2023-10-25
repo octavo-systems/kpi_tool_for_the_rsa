@@ -177,7 +177,8 @@ class Project(object):
                         form.volume = form.volume + 1
                         if exceedsResponse(i,KPIInterval):
                             print(str(i.number)+' Exceeds response time')
-                            form.failedresponse.append('P'+str(priority)+' : '+str(i.number))
+                            #form.failedresponse.append('P'+str(priority)+' : '+str(i.number))
+                            form.failedresponse.append({'sifter':'P'+str(priority)+' : '+str(i.number)})
                     else:
                         #Raise an exception? 
                         print('Unexpected Priority found : '+ i.priority)
