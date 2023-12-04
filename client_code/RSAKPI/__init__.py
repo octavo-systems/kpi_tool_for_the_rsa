@@ -1,6 +1,7 @@
 from ._anvil_designer import RSAKPITemplate
 import anvil.server
 from .Transport import Cargo
+from anvil.js.window import navigator
 
 
 class RSAKPI(RSAKPITemplate):
@@ -154,6 +155,9 @@ class RSAKPI(RSAKPITemplate):
     report.join( 'N/A' + HC_NEWLINE )  
 
     print (report)
+
+    navigator.clipboard.writeText(report)
+
 
 
 
