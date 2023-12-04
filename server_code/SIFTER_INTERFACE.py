@@ -200,10 +200,13 @@ class Project(object):
                     if kpi_created + datetime.timedelta(days=60) <= datetime.datetime.now(tz):
                       form.tickets_more_than_sixty = form.tickets_more_than_sixty + 1 
               
+                elif kpi_created.year >= year or kpi_created.month >= month:
+                    print("Skipping future month SIFTER : " +str(i.number))
+                    continue              
                 else:
                     #should always exit here
-                    print("Discarding out of month SIFTER : " +str(i.number))
-                    return form                  
+                    print("Stopping check at out of month SIFTER : " +str(i.number))
+                    return form                
 
             # Make a request for the next page - unlikely 
             if current_page < number_of_pages - 1:
