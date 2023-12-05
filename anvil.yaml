@@ -10,7 +10,10 @@ runtime_options:
   version: 2
   client_version: '3'
   server_version: python3-sandbox
-  server_spec: {base: python310-minimal}
+  server_spec: null
+  server_spec_disabled: {base: python310-minimal, requirements: 'python-dateutil
+
+      requests'}
 metadata: {title: KPI Tool for the RSA V2, description: Avoid Server timeouts on ANVIL,
   logo_img: 'https://www.rsa.ie/images/default-source/dummy-content/default-album/logo.svg?sfvrsn=2e65bc60_6'}
 startup_form: null
