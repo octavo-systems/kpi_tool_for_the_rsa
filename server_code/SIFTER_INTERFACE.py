@@ -1,7 +1,6 @@
 from anvil import *
 import anvil.server
 import requests
-#import anvil.http
 import json
 import datetime
 import dateutil.parser
@@ -46,7 +45,6 @@ class Milestone(object):
         self.due_date = milestone['due_date']
         self.issues_url = milestone['issues_url']
         self.api_issues_url = milestone['api_issues_url']
-
 
 class Issue(object):
     """Representation of an Issue in Sifter"""
@@ -288,7 +286,6 @@ class Project(object):
             people.append(u)
 
         return people
-
 
 class Account(object):
     """Account wrapper for Sifter"""
