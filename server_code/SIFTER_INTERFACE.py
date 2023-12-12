@@ -45,7 +45,6 @@ class Milestone(object):
         self.issues_url = milestone['issues_url']
         self.api_issues_url = milestone['api_issues_url']
 
-
 class Issue(object):
     """Representation of an Issue in Sifter"""
     def __init__(self, issue, account):
@@ -286,7 +285,6 @@ class Project(object):
             people.append(u)
 
         return people
-
 
 class Account(object):
     """Account wrapper for Sifter"""
