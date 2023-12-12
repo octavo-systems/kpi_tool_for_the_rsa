@@ -1,7 +1,5 @@
-from anvil import *
 import anvil.server
 import requests
-#import anvil.http
 import json
 import datetime
 import dateutil.parser
