@@ -4,7 +4,7 @@ import json
 import datetime
 import dateutil.parser
 import sys
-import Transport
+from . import Transport
 
 
 class Category(object):

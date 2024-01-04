@@ -1,15 +1,16 @@
-from ._anvil_designer import RSAKPITemplate
-from anvil.js.window import navigator
 import anvil.server
-from Transport import Cargo
-import sys
+import Transport
+from ._anvil_designer import RSAKPITemplate
+from anvil import is_server_side
+if not is_server_side():
+    from anvil.js.window import navigator
+
+
 
 
 class RSAKPI(RSAKPITemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
-    self.init_components(**properties)
-    print (sys.modules)
 
     # Any code you write here will run before the form opens.
     self.month.items = [("January", 1),("February",2),("March",3),("April",4),("May",5),("June",6),("July",7),("August",8),("September",9),("October",10),("November",11),("December",12)]
@@ -22,11 +23,11 @@ class RSAKPI(RSAKPITemplate):
   def sifter_btn_click(self, **event_args):
     """This method is called when the sifter button is clicked"""
   
-    critical = Cargo()
-    high = Cargo()
-    mormal = Cargo()
-    low = Cargo()
-    trivial = Cargo()
+    critical = Transport.Cargo()
+    high = Transport.Cargo()
+    mormal = Transport.Cargo()
+    low = Transport.Cargo()
+    trivial = Transport.Cargo()
     
     critical = anvil.server.call('GetRSASIFTER_MonthKPI',year = self.year.selected_value,month = self.month.selected_value, priority = 1 )
     self.critical.text = critical.volume
