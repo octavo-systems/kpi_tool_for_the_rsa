@@ -2,9 +2,9 @@ import anvil.server
 import requests
 import json
 import datetime
-import dateutil.parser
+#import dateutil.parser
 import sys
-from . import Transport
+import Transport
 
 
 class Category(object):
