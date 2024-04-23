@@ -64,6 +64,17 @@ class RSAKPI(RSAKPITemplate):
     self.closed.text = anvil.server.call('GetRSASIFTER_status',status=137092)
     self.total.text = self.open.text +self.reopened.text+self.followup.text+self.resolved.text+self.closed.text
 
+    # 4 less than 10 days
+
+    # 6 service requests
+
+    # 8 Number of SR aged tickets 60 day
+
+    # 9 Number of issues identified from system logs
+
+    # 10 Number of alerts/communications from DVCSD actioned
+
+    
   
   def save_btn_click(self, **event_args):
     """This method is called when the save button is clicked"""
