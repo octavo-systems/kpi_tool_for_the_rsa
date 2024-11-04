@@ -4,7 +4,7 @@ import json
 import datetime
 import dateutil.parser
 import sys
-from . import Transport
+import Transport
 
 
 class Category(object):
@@ -127,7 +127,7 @@ class Project(object):
         # Lets see how many there are in total and try and get those on 1 page normal might be an issue with aboput 1700 in Oct 2023
         Totalvolume = self.issuesPriority(priority)
       
-        # Sort by created to get most recent activity - added per_page = 10 for debug
+        # Sort by created to get most recent activity - add per_page = 10 for debug
         first_page = self.api_issues_url + '?p='+str(priority)+'&srt=created&per_page='+str(Totalvolume)
 
         # Get page one
@@ -179,24 +179,6 @@ class Project(object):
                     else:
                         #Raise an exception? 
                         print('Unexpected Priority found : '+ i.priority)
-                  
-                    if i.category_name == "Service Request":
-                      form.service_requests = form.service_requests + 1
-
-                    if i.subject[0:17].lower() == "application error":
-                      form.system_logs = form.system_logs + 1
-
-                    print(i.subject[0:5].lower() == "dvcsd")
-
-                    if i.subject[0:5].lower() == "dvcsd":
-                      form.dvcsd_contacts = form.dvcsd_contacts + 1
-                      print("dvcsd_contacts found in " +str(i.number))
-                    if kpi_created + datetime.timedelta(days=10) >= datetime.datetime.now(tz):
-                      form.tickets_less_than_ten_days = form.tickets_less_than_ten_days + 1
-
-                    if kpi_created + datetime.timedelta(days=60) <= datetime.datetime.now(tz):
-                      form.tickets_more_than_sixty = form.tickets_more_than_sixty + 1 
-              
                 elif kpi_created.year >= year or kpi_created.month >= month:
                     print("Skipping future month SIFTER : " +str(i.number))
                     continue              
@@ -212,6 +194,92 @@ class Project(object):
 
             # set the next page
             next_page = json_raw['next_page_url']
+
+    def issuesFirstPge(self,sort: str,numdays: int) -> Transport.Cargo:
+        """Gets all the issues for a given project, month/year, priority"""
+        # ascending = str('a')
+        # decending = str('d')
+        
+        #Return Class
+        form = Transport.Cargo()
+      
+        # Sort by passed parameter to get most eith 10/60 days result set. 
+        first_page = self.api_issues_url + '?t=1-2&srt=created&d='+sort+'&srt=created&per_page='
+
+        # Get page one
+        json_raw = self._account.request(first_page)
+
+        raw_issues = json_raw['issues']
+        for raw_issue in raw_issues:
+            i = Issue(raw_issue, self._account)
+            kpi_created = dateutil.parser.parse(i.created_at)
+
+            # kpi_created has a time zone part
+            tz = kpi_created.tzinfo
+
+            # Work out which date to cutoff - calculate the now for the TZ given
+            cutoff_date = datetime.datetime.now(tz)-datetime.timedelta(days=numdays)
+
+            print("SIFTER "+str(i.number)+" created: " +str(kpi_created))
+            print("Cut off calculation: "+str(cutoff_date))
+
+            if (sort == 'a' and kpi_created >= cutoff_date) or (sort == 'd' and kpi_created <= cutoff_date):
+                print("SIFTER "+str(i.number)+" outside cutoff")
+                print("tickets_less_than_ten_days: " +str(form.tickets_less_than_ten_days))
+                print("tickets_more_than_sixty: " +str(form.tickets_more_than_sixty))
+                return form                
+            else:
+                print("SIFTER "+str(i.number)+" inside cutoff")                
+                if sort == 'd':
+                    form.tickets_less_than_ten_days +=1
+                else:
+                    form.tickets_more_than_sixty +=1                    
+
+    def issuesByCategory(self,year: int, month: int,category: str) -> int:
+        """Gets all the issues for a given project, month/year, category"""
+        category_count: int = 0      
+        # Get the latest issues and count down through the month
+        first_page = self.api_issues_url + '?srt=created'
+
+        # Get page one
+        json_raw = self._account.request(first_page)
+
+        raw_issues = json_raw['issues']
+        for raw_issue in raw_issues:
+            i = Issue(raw_issue, self._account)
+            if str(i.category_name).lower() == category.lower(): 
+                kpi_created = dateutil.parser.parse(i.created_at)
+                #in this month?
+                if kpi_created.year == year and kpi_created.month == month:
+                    category_count +=1 
+                elif kpi_created.year >= year or kpi_created.month >= month:
+                    print("Skipping out of month SIFTER : " +str(i.number))
+                    return category_count
+                
+    def issuesByTitlePart(self,year: int, month: int,titlepart: str) -> int:
+        """Gets all the issues for a given project, month/year, TitlePart"""
+        titlepart_count: int = 0      
+        # Get the latest issues and count down through the month
+        first_page = self.api_issues_url + '?srt=created'
+
+        # Get page one
+        json_raw = self._account.request(first_page)
+        print("Checking Title Part: "+titlepart.lower())
+        raw_issues = json_raw['issues']
+        for raw_issue in raw_issues:
+            i = Issue(raw_issue, self._account)
+            print("Against: "+str(i.number)+' : '+i.subject[0:len(titlepart)].lower())
+            if i.subject[0:len(titlepart)].lower() == titlepart.lower(): 
+                print("Found Match for : "+titlepart.lower())
+                kpi_created = dateutil.parser.parse(i.created_at)
+                #in this month?
+                print('Checking year  : '+str(kpi_created.year) +'/'+ str(year))
+                print('Checking month : '+str(kpi_created.month) +'/'+ str(month))
+                if kpi_created.year == year and kpi_created.month == month:
+                    titlepart_count +=1 
+                elif kpi_created.month <= month:
+                    print("Skipping out of month SIFTER : " +str(i.number))
+                    return titlepart_count                
 
   
     def issues(self):
@@ -343,4 +411,20 @@ def GetRSASIFTER_MonthKPI(year: int,month: int, priority: int ) -> Transport.Car
   RSA = a.project()
   return RSA.issuesKPI(year,month,priority)
   
-   
+@anvil.server.callable
+def GetRSASIFTER_FirstPage(sort: str, numdays: int) -> Transport.Cargo:
+  a = Account("https://rsa.sifterapp.com/api/projects/23454", "8de196b4c23a45f62676e9c08aec5490")
+  RSA = a.project()
+  return RSA.issuesFirstPge(sort , numdays)   
+
+@anvil.server.callable
+def GetRSASIFTER_ByCategory(year: int, month: int,category: str) -> int:
+  a = Account("https://rsa.sifterapp.com/api/projects/23454", "8de196b4c23a45f62676e9c08aec5490")
+  RSA = a.project()
+  return RSA.issuesByCategory(year,month,category)   
+
+@anvil.server.callable
+def GetRSASIFTER_ByTitlePart(year: int, month: int,titlepart: str) -> int:
+  a = Account("https://rsa.sifterapp.com/api/projects/23454", "8de196b4c23a45f62676e9c08aec5490")
+  RSA = a.project()
+  return RSA.issuesByTitlePart(year,month,titlepart)  
