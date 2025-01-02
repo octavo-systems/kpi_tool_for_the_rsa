@@ -2,7 +2,7 @@ import anvil.server
 import requests
 import json
 import datetime
-import dateutil.parser
+#import dateutil.parser
 import sys
 import Transport
 
