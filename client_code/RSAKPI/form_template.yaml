@@ -65,7 +65,7 @@ components:
     event_bindings: {click: sifter_btn_click}
   - type: Button
     properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: Save Data to A File, font_size: null, font: '',
+      foreground: '', visible: true, text: Save Data to Clipboard, font_size: null, font: '',
       spacing_above: small, icon_align: left, spacing_below: small, italic: false,
       background: '', bold: false, underline: false, icon: ''}
     name: save_btn
