@@ -1,20 +1,21 @@
-services:
-- source: /runtime/services/tables.yml
-  client_config: {}
-  server_config: {}
-startup: {type: form, module: RSAKPI}
-package_name: RSAKPI_Optimisation
 allow_embedding: false
+metadata: {description: Avoid Server timeouts on ANVIL, logo_img: 'https://www.rsa.ie/images/default-source/dummy-content/default-album/logo.svg?sfvrsn=2e65bc60_6', title: KPI Tool for the RSA V2}
 name: RSAKPI Optimisation
-runtime_options:
-  version: 2
-  client_version: '3'
-  server_version: python3-sandbox
-  server_spec: null
-  server_spec_disabled: {base: python310-minimal, requirements: 'python-dateutil
-
-      requests'}
-metadata: {title: KPI Tool for the RSA V2, description: Avoid Server timeouts on ANVIL,
-  logo_img: 'https://www.rsa.ie/images/default-source/dummy-content/default-album/logo.svg?sfvrsn=2e65bc60_6'}
-startup_form: null
 native_deps: {head_html: ''}
+package_name: RSAKPI_Optimisation
+runtime_options:
+  client_version: '3'
+  server_spec: {base: python310-minimal}
+  server_spec_disabled:
+    base: python310-minimal
+    requirements: |-
+      python-dateutil
+      requests
+  server_version: python3-sandbox
+  version: 2
+services:
+- client_config: {}
+  server_config: {}
+  source: /runtime/services/tables.yml
+startup: {module: RSAKPI, type: form}
+startup_form: null

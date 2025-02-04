@@ -1,489 +1,385 @@
-is_package: true
-container:
-  type: HtmlTemplate
-  properties: {html: '@theme:standard-page.html'}
 components:
-- type: ColumnPanel
-  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-    wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
-    spacing_below: small, background: '#c0c0c0'}
-  name: column_panel_2
-  layout_properties: {slot: default}
-  components:
-  - type: DropDown
-    properties:
-      role: null
-      align: full
-      tooltip: ''
-      placeholder: ''
-      border: ''
-      enabled: true
-      foreground: ''
-      items: ['']
-      visible: true
-      font_size: null
-      font: ''
-      spacing_above: small
-      spacing_below: small
-      italic: false
-      background: ''
-      bold: false
-      underline: false
-      include_placeholder: false
+- components:
+  - data_bindings: []
+    layout_properties: {full_width_row: false, grid_position: 'BXYVHN,OLRGYO'}
     name: month
-    layout_properties: {grid_position: 'BXYVHN,OLRGYO', full_width_row: false}
-    data_bindings: []
-  - type: DropDown
     properties:
-      role: null
       align: full
-      tooltip: ''
-      placeholder: ''
-      border: ''
-      enabled: true
-      foreground: ''
-      items: ['']
-      visible: true
-      font_size: null
-      font: ''
-      spacing_above: small
-      spacing_below: small
-      italic: false
       background: ''
       bold: false
-      underline: false
-      include_placeholder: false
-    name: year
-    layout_properties: {grid_position: 'BXYVHN,ATEVQY', full_width_row: false}
-  - type: Button
-    properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: Get Data From SIFTER, font_size: null,
-      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: ''}
-    name: sifter_btn
-    layout_properties: {slot: default, grid_position: 'BXYVHN,ADWKQD', full_width_row: false}
-    event_bindings: {click: sifter_btn_click}
-  - type: Button
-    properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: Save Data to Clipboard, font_size: null, font: '',
-      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: ''}
-    name: save_btn
-    layout_properties: {slot: default, grid_position: 'BXYVHN,OHMEID', full_width_row: false}
-    event_bindings: {click: save_btn_click}
-  - type: Button
-    properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: Exit, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
-    name: exit_btn
-    layout_properties: {slot: default, grid_position: 'BXYVHN,EQBNEB', full_width_row: false}
-    event_bindings: {click: exit_btn_click}
-- type: ColumnPanel
-  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-    wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
-    spacing_below: small, background: '#c0c0c0'}
-  name: column_panel_3
-  layout_properties: {slot: default}
-  components:
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Number of Incidents Created each Month, font_size: null,
-      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: true, underline: false, icon: ''}
-    name: label_6
-    layout_properties: {grid_position: 'OWWOJW,MFFXMC'}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Critical, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
-    name: label_1
-    layout_properties: {grid_position: 'SWXZCV,YHUJKY'}
-  - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-      border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false}
-    name: critical
-    layout_properties: {grid_position: 'SWXZCV,KDPIVE'}
-    event_bindings: {}
-    data_bindings: []
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: 'High
-
-        ', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-      italic: false, background: '', bold: false, underline: false, icon: ''}
-    name: label_2
-    layout_properties: {grid_position: 'OGMPAH,SRHZFP'}
-  - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-      border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false}
-    name: high
-    layout_properties: {grid_position: 'OGMPAH,DTXRZG'}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Normal, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
-    name: label_3
-    layout_properties: {grid_position: 'ADENJQ,BARITC', slot: default}
-  - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-      border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false}
-    name: normal
-    layout_properties: {slot: default, grid_position: 'ADENJQ,HFTJEO'}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Low, font_size: null, font: '', spacing_above: small, icon_align: left,
-      spacing_below: small, italic: false, background: '', bold: false, underline: false,
-      icon: ''}
-    name: label_4
-    layout_properties: {grid_position: 'OJSYNH,AJTHOX'}
-  - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-      border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false}
-    name: low
-    layout_properties: {grid_position: 'OJSYNH,SIFIRM'}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Trivial, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
-    name: label_5
-    layout_properties: {grid_position: 'VWCQXY,RBBTDC'}
-  - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-      border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false}
-    name: trivial
-    layout_properties: {grid_position: 'VWCQXY,UVOSIO'}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Total, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
-    name: label_13
-    layout_properties: {grid_position: 'QTIUXB,HLTKHN'}
-  - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-      border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false}
-    name: total_incidents
-    layout_properties: {grid_position: 'QTIUXB,TAWZMK'}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Failed Response SLA, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
-      underline: false, icon: ''}
-    name: failed_response_list
-    layout_properties: {grid_position: 'LKCVPG,ULEWKF'}
-  - type: DataGrid
-    properties:
-      role: null
-      columns:
-      - {id: PCNSDB, title: SIFTER, data_key: sifter, $$hashKey: 'object:101333'}
-      auto_header: true
-      tooltip: ''
       border: ''
+      enabled: true
+      font: ''
+      font_size: null
       foreground: ''
-      rows_per_page: 20
+      include_placeholder: false
+      italic: false
+      items: ['']
+      placeholder: ''
+      role: null
+      spacing_above: small
+      spacing_below: small
+      tooltip: ''
+      underline: false
       visible: true
-      wrap_on: never
+    type: DropDown
+  - layout_properties: {full_width_row: false, grid_position: 'BXYVHN,ATEVQY'}
+    name: year
+    properties:
+      align: full
+      background: ''
+      bold: false
+      border: ''
+      enabled: true
+      font: ''
+      font_size: null
+      foreground: ''
+      include_placeholder: false
+      italic: false
+      items: ['']
+      placeholder: ''
+      role: null
+      spacing_above: small
+      spacing_below: small
+      tooltip: ''
+      underline: false
+      visible: true
+    type: DropDown
+  - event_bindings: {click: sifter_btn_click}
+    layout_properties: {full_width_row: false, grid_position: 'BXYVHN,ADWKQD', slot: default}
+    name: sifter_btn
+    properties: {align: center, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Get Data From SIFTER, tooltip: '', underline: false, visible: true}
+    type: Button
+  - event_bindings: {click: save_btn_click}
+    layout_properties: {full_width_row: false, grid_position: 'BXYVHN,OHMEID', slot: default}
+    name: save_btn
+    properties: {align: center, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Save Data to Clipboard, tooltip: '', underline: false, visible: true}
+    type: Button
+  - event_bindings: {click: exit_btn_click}
+    layout_properties: {full_width_row: false, grid_position: 'BXYVHN,EQBNEB', slot: default}
+    name: exit_btn
+    properties: {align: center, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Exit, tooltip: '', underline: false, visible: true}
+    type: Button
+  layout_properties: {slot: default}
+  name: column_panel_2
+  properties: {background: '#c0c0c0', border: '', col_spacing: medium, col_widths: '{}', foreground: '', role: null, spacing_above: small, spacing_below: small, tooltip: '', visible: true, wrap_on: mobile}
+  type: ColumnPanel
+- components:
+  - layout_properties: {grid_position: 'OWWOJW,MFFXMC'}
+    name: label_6
+    properties: {align: left, background: '', bold: true, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Number of Incidents Created each Month, tooltip: '', underline: false, visible: true}
+    type: Label
+  - layout_properties: {grid_position: 'SWXZCV,YHUJKY'}
+    name: label_1
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Critical, tooltip: '', underline: false, visible: true}
+    type: Label
+  - data_bindings: []
+    event_bindings: {}
+    layout_properties: {grid_position: 'SWXZCV,KDPIVE'}
+    name: critical
+    properties: {align: left, background: '', bold: false, border: '', enabled: false, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+    type: TextBox
+  - layout_properties: {grid_position: 'OGMPAH,SRHZFP'}
+    name: label_2
+    properties:
+      align: left
+      background: ''
+      bold: false
+      border: ''
+      font: ''
+      font_size: null
+      foreground: ''
+      icon: ''
+      icon_align: left
+      italic: false
+      role: null
+      spacing_above: small
+      spacing_below: small
+      text: |
+        High
+      tooltip: ''
+      underline: false
+      visible: true
+    type: Label
+  - layout_properties: {grid_position: 'OGMPAH,DTXRZG'}
+    name: high
+    properties: {align: left, background: '', bold: false, border: '', enabled: false, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+    type: TextBox
+  - layout_properties: {grid_position: 'ADENJQ,BARITC', slot: default}
+    name: label_3
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Normal, tooltip: '', underline: false, visible: true}
+    type: Label
+  - layout_properties: {grid_position: 'ADENJQ,HFTJEO', slot: default}
+    name: normal
+    properties: {align: left, background: '', bold: false, border: '', enabled: false, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+    type: TextBox
+  - layout_properties: {grid_position: 'OJSYNH,AJTHOX'}
+    name: label_4
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Low, tooltip: '', underline: false, visible: true}
+    type: Label
+  - layout_properties: {grid_position: 'OJSYNH,SIFIRM'}
+    name: low
+    properties: {align: left, background: '', bold: false, border: '', enabled: false, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+    type: TextBox
+  - layout_properties: {grid_position: 'VWCQXY,RBBTDC'}
+    name: label_5
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Trivial, tooltip: '', underline: false, visible: true}
+    type: Label
+  - layout_properties: {grid_position: 'VWCQXY,UVOSIO'}
+    name: trivial
+    properties: {align: left, background: '', bold: false, border: '', enabled: false, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+    type: TextBox
+  - layout_properties: {grid_position: 'QTIUXB,HLTKHN'}
+    name: label_13
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Total, tooltip: '', underline: false, visible: true}
+    type: Label
+  - layout_properties: {grid_position: 'QTIUXB,TAWZMK'}
+    name: total_incidents
+    properties: {align: left, background: '', bold: false, border: '', enabled: false, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+    type: TextBox
+  - layout_properties: {grid_position: 'LKCVPG,ULEWKF'}
+    name: failed_response_list
+    properties: {align: left, background: '', bold: true, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Failed Response SLA, tooltip: '', underline: false, visible: true}
+    type: Label
+  - components:
+    - layout_properties: {}
+      name: sifterrows
+      properties: {item_template: RSAKPI.RowTemplate1, spacing_above: none, spacing_below: none}
+      type: RepeatingPanel
+    layout_properties: {grid_position: 'STZFDB,AANHLQ', slot: default}
+    name: failedresponse
+    properties:
+      auto_header: true
+      background: ''
+      border: ''
+      columns:
+      - {$$hashKey: 'object:101333', data_key: sifter, id: PCNSDB, title: SIFTER}
+      foreground: ''
+      role: null
+      rows_per_page: 20
       show_page_controls: true
       spacing_above: small
       spacing_below: small
-      background: ''
-    name: failedresponse
-    layout_properties: {slot: default, grid_position: 'STZFDB,AANHLQ'}
-    components:
-    - type: RepeatingPanel
-      properties: {spacing_above: none, spacing_below: none, item_template: RSAKPI.RowTemplate1}
-      name: sifterrows
-      layout_properties: {}
-- type: ColumnPanel
-  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-    wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
-    spacing_below: small, background: '#c0c0c0'}
-  name: column_panel_4
+      tooltip: ''
+      visible: true
+      wrap_on: never
+    type: DataGrid
   layout_properties: {slot: default}
-  components:
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: 'Open
-
-        ', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-      italic: false, background: '', bold: false, underline: false, icon: ''}
+  name: column_panel_3
+  properties: {background: '#c0c0c0', border: '', col_spacing: medium, col_widths: '{}', foreground: '', role: null, spacing_above: small, spacing_below: small, tooltip: '', visible: true, wrap_on: mobile}
+  type: ColumnPanel
+- components:
+  - layout_properties: {grid_position: 'GTMNUB,ADFNKM VCECHG,ZVCNBI', slot: default}
     name: label_2_copy
-    layout_properties: {grid_position: 'GTMNUB,ADFNKM VCECHG,ZVCNBI', slot: default}
-  - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false}
+    properties:
+      align: left
+      background: ''
+      bold: false
+      border: ''
+      font: ''
+      font_size: null
+      foreground: ''
+      icon: ''
+      icon_align: left
+      italic: false
+      role: null
+      spacing_above: small
+      spacing_below: small
+      text: |
+        Open
+      tooltip: ''
+      underline: false
+      visible: true
+    type: Label
+  - layout_properties: {grid_position: 'GTMNUB,ADFNKM VCECHG,GAOBNG'}
     name: open
-    layout_properties: {grid_position: 'GTMNUB,ADFNKM VCECHG,GAOBNG'}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: ReOpened, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+    properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+    type: TextBox
+  - layout_properties: {grid_position: 'GTMNUB,ADFNKM FYPKIG,LUUNGC', slot: default}
     name: label_1_copy
-    layout_properties: {grid_position: 'GTMNUB,ADFNKM FYPKIG,LUUNGC', slot: default}
-  - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false}
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: ReOpened, tooltip: '', underline: false, visible: true}
+    type: Label
+  - layout_properties: {grid_position: 'GTMNUB,ADFNKM FYPKIG,QYFJPW'}
     name: reopened
-    layout_properties: {grid_position: 'GTMNUB,ADFNKM FYPKIG,QYFJPW'}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Followup, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+    properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+    type: TextBox
+  - layout_properties: {grid_position: 'GTMNUB,ADFNKM DNFBHG,GNRUHQ', slot: default}
     name: label_3_copy
-    layout_properties: {grid_position: 'GTMNUB,ADFNKM DNFBHG,GNRUHQ', slot: default}
-  - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false}
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Followup, tooltip: '', underline: false, visible: true}
+    type: Label
+  - layout_properties: {grid_position: 'GTMNUB,ADFNKM DNFBHG,KIGNAP', slot: default}
     name: followup
-    layout_properties: {slot: default, grid_position: 'GTMNUB,ADFNKM DNFBHG,KIGNAP'}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Resolved, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+    properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+    type: TextBox
+  - layout_properties: {grid_position: 'GTMNUB,ADFNKM VCODWO,RVCAFI'}
     name: label_4_copy
-    layout_properties: {grid_position: 'GTMNUB,ADFNKM VCODWO,RVCAFI'}
-  - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false}
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Resolved, tooltip: '', underline: false, visible: true}
+    type: Label
+  - layout_properties: {grid_position: 'GTMNUB,ADFNKM VCODWO,IJDMNT'}
     name: resolved
-    layout_properties: {grid_position: 'GTMNUB,ADFNKM VCODWO,IJDMNT'}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Closed, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+    properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+    type: TextBox
+  - layout_properties: {grid_position: 'GTMNUB,ADFNKM MAAOBM,IVEBTH'}
     name: label_5_copy
-    layout_properties: {grid_position: 'GTMNUB,ADFNKM MAAOBM,IVEBTH'}
-  - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false}
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Closed, tooltip: '', underline: false, visible: true}
+    type: Label
+  - layout_properties: {grid_position: 'GTMNUB,ADFNKM MAAOBM,ZGMBMV'}
     name: closed
-    layout_properties: {grid_position: 'GTMNUB,ADFNKM MAAOBM,ZGMBMV'}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Total, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+    properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+    type: TextBox
+  - layout_properties: {grid_position: 'GTMNUB,PXEXFT PBNJUF,LMEMIL'}
     name: label_8
-    layout_properties: {grid_position: 'GTMNUB,PXEXFT PBNJUF,LMEMIL'}
-  - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false}
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Total, tooltip: '', underline: false, visible: true}
+    type: Label
+  - layout_properties: {grid_position: 'GTMNUB,PXEXFT PFRZOK,DZPSTM'}
     name: total
-    layout_properties: {grid_position: 'GTMNUB,PXEXFT PFRZOK,DZPSTM'}
-- type: Label
-  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
-    text: 2. Percentage of incidents that met service levels (where no dependancy on DVCSD),
-    font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-    italic: false, background: '', bold: false, underline: false, icon: ''}
+    properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+    type: TextBox
+  layout_properties: {slot: default}
+  name: column_panel_4
+  properties: {background: '#c0c0c0', border: '', col_spacing: medium, col_widths: '{}', foreground: '', role: null, spacing_above: small, spacing_below: small, tooltip: '', visible: true, wrap_on: mobile}
+  type: ColumnPanel
+- layout_properties: {slot: default}
   name: label_9
-  layout_properties: {slot: default}
-- type: TextBox
-  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-    border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
-    font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-    background: '', bold: false, underline: false}
+  properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: 2. Percentage of incidents that met service levels (where no dependancy on DVCSD), tooltip: '', underline: false, visible: true}
+  type: Label
+- layout_properties: {slot: default}
   name: percentage_incidents_in_sla
-  layout_properties: {slot: default}
-- type: Label
-  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
-    text: '3. First contact resolution rate ', font_size: null, font: '', spacing_above: small,
-    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-    underline: false, icon: ''}
+  properties: {align: left, background: '', bold: false, border: '', enabled: false, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+  type: TextBox
+- layout_properties: {slot: default}
   name: label_9_copy
-  layout_properties: {slot: default}
-- type: TextBox
-  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-    border: '', enabled: false, foreground: '', visible: true, text: 'Not Applicable
-      : All incidents raised through SIFTER', font_size: null, font: '', spacing_above: small,
-    type: text, spacing_below: small, italic: false, background: '', bold: false,
-    underline: false}
+  properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: '3. First contact resolution rate ', tooltip: '', underline: false, visible: true}
+  type: Label
+- layout_properties: {slot: default}
   name: text_box_1_copy
-  layout_properties: {slot: default}
-- type: Label
-  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
-    text: 4.Number of incident backlog/aged tickets less than 10 days old (where no dependency on DVCSD),
-    font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-    italic: false, background: '', bold: false, underline: false, icon: ''}
+  properties: {align: left, background: '', bold: false, border: '', enabled: false, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: 'Not Applicable : All incidents raised through SIFTER', tooltip: '', type: text, underline: false, visible: true}
+  type: TextBox
+- layout_properties: {slot: default}
   name: label_9_copy_2
-  layout_properties: {slot: default}
-- type: TextBox
-  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-    border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
-    font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-    background: '', bold: false, underline: false}
+  properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: 4.Number of incident backlog/aged tickets less than 10 days old (where no dependency on DVCSD), tooltip: '', underline: false, visible: true}
+  type: Label
+- layout_properties: {slot: default}
   name: tickets_less_than_ten_days
-  layout_properties: {slot: default}
-- type: Label
-  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
-    text: 5.Unplanned Outages split into DVCSD and Vendor issues, font_size: null,
-    font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-    background: '', bold: false, underline: false, icon: ''}
+  properties: {align: left, background: '', bold: false, border: '', enabled: false, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+  type: TextBox
+- layout_properties: {slot: default}
   name: label_9_copy_3
-  layout_properties: {slot: default}
-- type: TextBox
-  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-    border: '', enabled: false, foreground: '', visible: true, text: Not Applicable,
-    font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
-    italic: false, background: '', bold: false, underline: false}
+  properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: 5.Unplanned Outages split into DVCSD and Vendor issues, tooltip: '', underline: false, visible: true}
+  type: Label
+- layout_properties: {slot: default}
   name: text_box_1_copy_3
-  layout_properties: {slot: default}
-- type: Label
-  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
-    text: 6.Number of Service requests in month, font_size: null, font: '', spacing_above: small,
-    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-    underline: false, icon: ''}
+  properties: {align: left, background: '', bold: false, border: '', enabled: false, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: Not Applicable, tooltip: '', type: text, underline: false, visible: true}
+  type: TextBox
+- layout_properties: {slot: default}
   name: label_9_copy_4
+  properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: 6.Number of Service requests in month, tooltip: '', underline: false, visible: true}
+  type: Label
+- event_bindings: {}
   layout_properties: {slot: default}
-- type: TextBox
-  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-    border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
-    font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-    background: '', bold: false, underline: false}
   name: service_requests
-  layout_properties: {slot: default}
-  event_bindings: {}
-- type: Label
-  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
-    text: 7. Percentage of service requests that met service levels., font_size: null,
-    font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-    background: '', bold: false, underline: false, icon: ''}
+  properties: {align: left, background: '', bold: false, border: '', enabled: false, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+  type: TextBox
+- layout_properties: {slot: default}
   name: label_9_copy_5
-  layout_properties: {slot: default}
-- type: TextBox
-  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-    border: '', enabled: false, foreground: '', visible: true, text: 'Not Appplicable
-      : There is no SLA for service requests', font_size: null, font: '', spacing_above: small,
-    type: text, spacing_below: small, italic: false, background: '', bold: false,
-    underline: false}
+  properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: 7. Percentage of service requests that met service levels., tooltip: '', underline: false, visible: true}
+  type: Label
+- layout_properties: {slot: default}
   name: text_box_1_copy_5
-  layout_properties: {slot: default}
-- type: Label
-  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
-    text: 8. Number of SR aged tickets 60 days (where no dependency on DVCSD), font_size: null,
-    font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-    background: '', bold: false, underline: false, icon: ''}
+  properties: {align: left, background: '', bold: false, border: '', enabled: false, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: 'Not Appplicable : There is no SLA for service requests', tooltip: '', type: text, underline: false, visible: true}
+  type: TextBox
+- layout_properties: {slot: default}
   name: label_9_copy_6
+  properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: 8. Number of SR aged tickets 60 days (where no dependency on DVCSD), tooltip: '', underline: false, visible: true}
+  type: Label
+- event_bindings: {}
   layout_properties: {slot: default}
-- type: TextBox
-  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-    border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
-    font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-    background: '', bold: false, underline: false}
   name: tickets_more_than_sixty
-  layout_properties: {slot: default}
-  event_bindings: {}
-- type: Label
-  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
-    text: 9. Number of issues identified from system logs in month, font_size: null,
-    font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-    background: '', bold: false, underline: false, icon: ''}
+  properties: {align: left, background: '', bold: false, border: '', enabled: false, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+  type: TextBox
+- layout_properties: {slot: default}
   name: label_9_copy_7
-  layout_properties: {slot: default}
-- type: TextBox
-  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-    border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
-    font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-    background: '', bold: false, underline: false}
+  properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: 9. Number of issues identified from system logs in month, tooltip: '', underline: false, visible: true}
+  type: Label
+- layout_properties: {slot: default}
   name: system_logs
-  layout_properties: {slot: default}
-- type: Label
-  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
-    text: 10. Number of alerts/communications from DVCSD actioned in month, font_size: null,
-    font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-    background: '', bold: false, underline: false, icon: ''}
+  properties: {align: left, background: '', bold: false, border: '', enabled: false, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+  type: TextBox
+- layout_properties: {slot: default}
   name: label_9_copy_8
-  layout_properties: {slot: default}
-- type: TextBox
-  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-    border: '', enabled: false, foreground: '', visible: true, text: '', font_size: null,
-    font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-    background: '', bold: false, underline: false}
+  properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: 10. Number of alerts/communications from DVCSD actioned in month, tooltip: '', underline: false, visible: true}
+  type: Label
+- layout_properties: {slot: default}
   name: dvcsd_contacts
-  layout_properties: {slot: default}
-- type: Label
-  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
-    text: 11. System up time clarify what is DVCSD and Vendor related on downtime.,
-    font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-    italic: false, background: '', bold: false, underline: false, icon: ''}
+  properties: {align: left, background: '', bold: false, border: '', enabled: false, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+  type: TextBox
+- layout_properties: {slot: default}
   name: label_9_copy_9
-  layout_properties: {slot: default}
-- type: TextBox
-  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-    border: '', enabled: true, foreground: '', visible: true, text: Not Applicable,
-    font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
-    italic: false, background: '', bold: false, underline: false}
+  properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: 11. System up time clarify what is DVCSD and Vendor related on downtime., tooltip: '', underline: false, visible: true}
+  type: Label
+- layout_properties: {slot: default}
   name: text_box_1_copy_9
-  layout_properties: {slot: default}
-- type: Label
-  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
-    text: Release Management, font_size: null, font: '', spacing_above: small, icon_align: left,
-    spacing_below: small, italic: false, background: '#c0c0c0', bold: true, underline: false,
-    icon: ''}
+  properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: Not Applicable, tooltip: '', type: text, underline: false, visible: true}
+  type: TextBox
+- layout_properties: {slot: default}
   name: label_10
-  layout_properties: {slot: default}
-- type: Label
-  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
-    text: '1. Hypercare Exit on deployments major releases - Exit of hypercare after
-      1 month dependent
-
-      no P1 or P2 raised by customer/ business in the last 7 days.', font_size: null,
-    font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-    background: '', bold: false, underline: false, icon: ''}
+  properties: {align: left, background: '#c0c0c0', bold: true, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: Release Management, tooltip: '', underline: false, visible: true}
+  type: Label
+- layout_properties: {slot: default}
   name: label_11
-  layout_properties: {slot: default}
-- type: TextBox
-  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-    border: '', enabled: false, foreground: '', visible: true, text: N/A Rational provide continuous hyper care,
-    font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
-    italic: false, background: '', bold: false, underline: false}
+  properties:
+    align: left
+    background: ''
+    bold: false
+    border: ''
+    font: ''
+    font_size: null
+    foreground: ''
+    icon: ''
+    icon_align: left
+    italic: false
+    role: null
+    spacing_above: small
+    spacing_below: small
+    text: |-
+      1. Hypercare Exit on deployments major releases - Exit of hypercare after 1 month dependent
+      no P1 or P2 raised by customer/ business in the last 7 days.
+    tooltip: ''
+    underline: false
+    visible: true
+  type: Label
+- layout_properties: {slot: default}
   name: major_release
-  layout_properties: {slot: default}
-- type: Label
-  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
-    text: '2. Minor releases will have related hypercare of 2 weeks - no P1 or P2
-      raised by customer/
-
-      business in the last 4 days to close that hypercare period.', font_size: null,
-    font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-    background: '', bold: false, underline: false, icon: ''}
+  properties: {align: left, background: '', bold: false, border: '', enabled: false, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: N/A Rational provide continuous hyper care, tooltip: '', type: text, underline: false, visible: true}
+  type: TextBox
+- layout_properties: {slot: default}
   name: label_12
-  layout_properties: {slot: default}
-- type: TextBox
-  properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
-    border: '', enabled: false, foreground: '', visible: true, text: N/A Rational provide continuous hyper care,
-    font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
-    italic: false, background: '', bold: false, underline: false}
+  properties:
+    align: left
+    background: ''
+    bold: false
+    border: ''
+    font: ''
+    font_size: null
+    foreground: ''
+    icon: ''
+    icon_align: left
+    italic: false
+    role: null
+    spacing_above: small
+    spacing_below: small
+    text: |-
+      2. Minor releases will have related hypercare of 2 weeks - no P1 or P2 raised by customer/
+      business in the last 4 days to close that hypercare period.
+    tooltip: ''
+    underline: false
+    visible: true
+  type: Label
+- layout_properties: {slot: default}
   name: minor_release
-  layout_properties: {slot: default}
+  properties: {align: left, background: '', bold: false, border: '', enabled: false, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: null, spacing_above: small, spacing_below: small, text: N/A Rational provide continuous hyper care, tooltip: '', type: text, underline: false, visible: true}
+  type: TextBox
+container:
+  properties: {html: '@theme:standard-page.html'}
+  type: HtmlTemplate
+is_package: true
