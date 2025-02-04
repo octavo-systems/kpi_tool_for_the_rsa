@@ -1,5 +1,5 @@
 import anvil.server
-from . import Transport
+from .. import Transport
 from ._anvil_designer import RSAKPITemplate
 from anvil import is_server_side
 if not is_server_side():
