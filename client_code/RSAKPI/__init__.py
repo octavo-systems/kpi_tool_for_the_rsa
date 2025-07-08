@@ -108,8 +108,8 @@ class RSAKPI(RSAKPITemplate):
         report=report+ HC_NEWLINE +'None.' + HC_NEWLINE
     else:
         report=report+ HC_NEWLINE 
-        for kpifailure in self.sifterrows.items:
-            report=report+ 'SIFTER  ' + HC_TAB + str(kpifailure) + HC_NEWLINE 
+        for kpifailure in self.failedresponse:
+            report=report+ 'SIFTER  ' + HC_TAB + kpifailure + HC_NEWLINE 
 
     report=report+ HC_NEWLINE 
     report=report+ '1.1 SIFTER Volumes'+HC_NEWLINE 
